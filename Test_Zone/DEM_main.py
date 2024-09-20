@@ -5,7 +5,7 @@ from matplotlib.animation import FuncAnimation
 
 
 class DEM2D:
-    def __init__(self, particles, box, time_step=0.01, total_time=10.0):
+    def __init__(self, particles, box, time_step=0.01, total_time=10.0, gravity = True):
         """
         Initialize the DEM simulation.
         
@@ -20,6 +20,12 @@ class DEM2D:
         self.total_time = total_time
         self.current_time = 0.0
         self.history = []  # Store history of particle states for visualization if needed
+        self.gravity = gravity
+
+
+        ### internal variables
+        self.collisions = []
+        self.wall_collisions = []
 
     def run(self):
         """
@@ -37,6 +43,31 @@ class DEM2D:
             # Store history (optional, for later visualization)
             self.store_history()
 
+    def check_for_collision(self):
+        for i in range(len(self.particles)):
+            for j in range(i + 1, len(self.particles)):  # To avoid checking the same pair twice
+                p1 = self.particles[i]
+                p2 = self.particles[j]
+                
+                # Calculate the distance between the two particles
+                distance = np.linalg.norm(p1.position - p2.position)
+                
+                # Check if the distance is less than or equal to the sum of their radii
+                if distance <= (p1.radius + p2.radius):
+                    self.collisions.append((i, j))
+
+            p = self.particles[i]
+            x, y = p.position  # Particle's position
+
+            # Check if the particle is colliding with the left or right wall
+            if x - p.radius <= 0 or x + p.radius >= self.box.width:
+                self.wall_collisions.append((i, 'x'))  # 'x' indicates horizontal wall collision
+
+            # Check if the particle is colliding with the top or bottom wall
+            if y - p.radius <= 0 or y + p.radius >= self.box.height:
+                self.wall_collisions.append((i, 'y'))  # 'y' indicates vertical wall collision
+
+
     def update_particle(self, particle):
         """
         Update the particle's position, handle boundary collision.
@@ -44,7 +75,7 @@ class DEM2D:
         :param particle: A Particle2D object to update.
         """
         # Reset forces on the particle (if we had any forces acting on them)
-        particle.reset_force()
+        particle.reset_force(gravity = True)
         
         # Update acceleration based on current forces (forces are zero in this case)
         particle.update_acceleration()

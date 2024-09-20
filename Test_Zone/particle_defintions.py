@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 class Particle2D:
-    def __init__(self, position, velocity, radius, mass, material_properties = {'restitution': 1.0}, id=None):
+    def __init__(self, position, velocity, ang_velocity, radius, mass, material_properties = {'restitution': 1.0}, id=None):
         """
         Initialize a 2D hard disk particle for DEM simulation.
         
@@ -16,6 +16,7 @@ class Particle2D:
         """
         self.position = np.array(position)
         self.velocity = np.array(velocity)
+        self.ang_velocity = ang_velocity
         self.radius = radius
         self.mass = mass
         self.material_properties = material_properties
@@ -48,11 +49,14 @@ class Particle2D:
         """
         self.force += np.array(force)
 
-    def reset_force(self):
+    def reset_force(self, gravity):
         """
         Resets the force acting on the particle to zero. Call this at the beginning of each time step.
         """
-        self.force = np.array([0.0, 0.0])
+        if not gravity:
+            self.force = np.array([0.0, 0.0])
+        else:
+            self.force = np.array([0.0, -9.81 * self.mass])
 
     def handle_wall_collision(self, box_size):
         """
