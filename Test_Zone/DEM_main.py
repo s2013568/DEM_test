@@ -91,10 +91,12 @@ class DEM2D:
         """
 
         # Reset forces on the particle (if we had any forces acting on them)
-        particle.reset_force(gravity = True)
+        particle.reset_force(gravity = self.gravity)
         
         # Update acceleration based on current forces (forces are zero in this case)
         particle.update_acceleration()
+
+        particle.update_velocity(self.time_step)
 
         # Update particle's position and velocity using integration
         particle.update_position(self.time_step)
@@ -115,11 +117,21 @@ class DEM2D:
         particle_states = [(p.position.copy(), p.velocity.copy()) for p in self.particles]
         self.history.append(particle_states)
 
-    def visualize(self, save_path=None, save_format="gif"):
+    def visualize(self, save_path=None, save_format="gif", max_frames=100):
         """
-        Visualize the particle positions over time using the stored history.
+        Visualize the particle positions over time using the stored history,
+        with an option to limit the total number of frames in the animation.
         """
         fig, ax = plt.subplots()
+
+        # Define the maximum number of frames for the animation
+        total_steps = len(self.history)
+
+        # If the total number of steps exceeds max_frames, we sample the frames
+        if total_steps > max_frames:
+            frame_indices = np.linspace(0, total_steps - 1, max_frames, dtype=int)
+        else:
+            frame_indices = np.arange(total_steps)
 
         # Plot the initial state of particles in the box
         def init():
@@ -131,7 +143,8 @@ class DEM2D:
             plt.title(f"Time: {self.current_time:.2f}")
 
         # Plot the particles at a specific time step
-        def update(step):
+        def update(step_index):
+            step = frame_indices[step_index]  # Get the actual step from the downsampled indices
             ax.clear()
             init()
             particle_states = self.history[step]
@@ -139,18 +152,16 @@ class DEM2D:
                 circle = plt.Circle(pos, radius=self.particles[0].radius, color='g')
                 ax.add_patch(circle)
 
-        # Animation using stored history
+        # Animation using the downsampled frame indices
+        self.anim = FuncAnimation(fig, update, frames=len(frame_indices), interval=50)
 
-        self.anim = FuncAnimation(fig, update, frames=len(self.history), interval=50)
-
-
+        # Save the animation if a path is provided
         if save_path:
             if save_format == "gif":
                 self.anim.save(save_path, writer="pillow")
             elif save_format == "mp4":
                 self.anim.save(save_path, writer="ffmpeg")
             print(f"Animation saved to {save_path}")
-              
 
         plt.show()
 

@@ -60,9 +60,6 @@ def calculate_final_velocities(colliding_particle):
     v_xb = - PX / colliding_particle[1].mass + collision_velocities[1][0]
     v_yb = - PY / colliding_particle[1].mass + collision_velocities[1][1]
     colliding_particle[1].ang_velocity = (- PX * colliding_particle[1].radius / colliding_particle[1].moment_of_inertia) + colliding_particle[1].ang_velocity
-
-    print(v_xa, v_ya, v_xb, v_yb)
-
     return v_xa, v_ya, v_xb, v_yb
 
 
@@ -81,7 +78,6 @@ def translate_velocity_to_original_axes(v_xa, v_ya, v_xb, v_yb, p1, p2):
     
     # Step 4: Reconstruct the velocity of particle 1 in the original coordinate system
     p1.velocity = v_xa * x_col_axis + v_ya * y_col_axis
-    print(p1.velocity)
     # Step 5: Reconstruct the velocity of particle 2 in the original coordinate system
     if p2.id != -1:
         p2.velocity = v_xb * x_col_axis + v_yb * y_col_axis

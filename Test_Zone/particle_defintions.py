@@ -35,14 +35,16 @@ class Particle2D:
         """
         self.acceleration = self.force / self.mass
 
+    def update_velocity(self, dt):
+        self.velocity += self.acceleration * dt
+
     def update_position(self, dt):
         """
         Updates the particle's position and velocity using simple integration.
         
         :param dt: Time step for the simulation.
         """
-        self.position += self.velocity * dt + 0.5 * self.acceleration * (dt ** 2)
-        self.velocity += self.acceleration * dt
+        self.position += self.velocity * dt
 
     def apply_force(self, force):
         """
