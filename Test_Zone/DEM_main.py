@@ -99,13 +99,6 @@ class DEM2D:
         # Update particle's position and velocity using integration
         particle.update_position(self.time_step)
 
-        # # Handle boundary collisions
-        # particle.handle_wall_collision((self.box.width, self.box.height))
-
-
-        # Placeholder for particle-particle interactions (collision detection)
-        self.check_for_contact(particle)
-
     def check_for_contact(self, particle):
         """
         Check for contact between particles (Placeholder).
