@@ -2,6 +2,7 @@ from particle_defintions import Particle2D, Box2D
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+import collision_method as cm
 
 
 class DEM2D:
@@ -22,10 +23,9 @@ class DEM2D:
         self.history = []  # Store history of particle states for visualization if needed
         self.gravity = gravity
 
-
         ### internal variables
         self.collisions = []
-        self.wall_collisions = []
+
 
     def run(self):
         """
@@ -36,12 +36,24 @@ class DEM2D:
             self.current_time += self.time_step
             print(f"Step {step+1}/{num_steps}, Time: {self.current_time}")
             
-            # Update each particle's position and handle boundary collisions
+            ### Check if any collision have occured
+            self.check_for_collision()
+            ### if collision have occured, we resolve them pair by pair, and updating their respective velocity internally
+            if self.collisions != []:
+                for colliding_particle in self.collisions:
+                    v_xa, v_ya, v_xb, v_yb = cm.calculate_final_velocities(colliding_particle)
+                    cm.translate_velocity_to_original_axes(v_xa, v_ya, v_xb, v_yb, colliding_particle[0], colliding_particle[1])
+                ### clear buffer
+                self.collisions = []
+
+            
+            ### now the collision is solved, the particles are then allowed to step into the next time step
             for particle in self.particles:
                 self.update_particle(particle)
             
             # Store history (optional, for later visualization)
             self.store_history()
+
 
     def check_for_collision(self):
         for i in range(len(self.particles)):
@@ -54,18 +66,21 @@ class DEM2D:
                 
                 # Check if the distance is less than or equal to the sum of their radii
                 if distance <= (p1.radius + p2.radius):
-                    self.collisions.append((i, j))
+                    self.collisions.append((p1, p2))
 
             p = self.particles[i]
             x, y = p.position  # Particle's position
 
             # Check if the particle is colliding with the left or right wall
-            if x - p.radius <= 0 or x + p.radius >= self.box.width:
-                self.wall_collisions.append((i, 'x'))  # 'x' indicates horizontal wall collision
-
+            if x - p.radius <= 0:
+                self.collisions.append((p, Particle2D(np.array([x - p.radius, y]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=-1)))
+            elif x + p.radius >= self.box.width:
+                self.collisions.append((p, Particle2D(np.array([x + p.radius, y]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=-1)))
             # Check if the particle is colliding with the top or bottom wall
-            if y - p.radius <= 0 or y + p.radius >= self.box.height:
-                self.wall_collisions.append((i, 'y'))  # 'y' indicates vertical wall collision
+            if y - p.radius <= 0:
+                self.collisions.append((p, Particle2D(np.array([x, y - p.radius]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id = -1)))  # 'y' indicates vertical wall collision
+            elif y + p.radius >= self.box.height:
+                self.collisions.append((p, Particle2D(np.array([x, y + p.radius]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id = -1)))  # 'y' indicates vertical wall collision
 
 
     def update_particle(self, particle):
@@ -74,6 +89,7 @@ class DEM2D:
         
         :param particle: A Particle2D object to update.
         """
+
         # Reset forces on the particle (if we had any forces acting on them)
         particle.reset_force(gravity = True)
         
@@ -83,8 +99,8 @@ class DEM2D:
         # Update particle's position and velocity using integration
         particle.update_position(self.time_step)
 
-        # Handle boundary collisions
-        particle.handle_wall_collision((self.box.width, self.box.height))
+        # # Handle boundary collisions
+        # particle.handle_wall_collision((self.box.width, self.box.height))
 
 
         # Placeholder for particle-particle interactions (collision detection)

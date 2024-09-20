@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 class Particle2D:
-    def __init__(self, position, velocity, ang_velocity, radius, mass, material_properties = {'restitution': 1.0}, id=None):
+    def __init__(self, position, velocity, ang_velocity, radius, mass, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=None):
         """
         Initialize a 2D hard disk particle for DEM simulation.
         
@@ -25,6 +25,9 @@ class Particle2D:
         # Force and acceleration properties for 2D
         self.force = np.array([0.0, 0.0])  # Force acting on the particle
         self.acceleration = np.array([0.0, 0.0])  # Acceleration of the particle
+
+        ### derived constants
+        self.moment_of_inertia = (1/2) * self.mass * (self.radius ** 2)
 
     def update_acceleration(self):
         """
@@ -58,19 +61,19 @@ class Particle2D:
         else:
             self.force = np.array([0.0, -9.81 * self.mass])
 
-    def handle_wall_collision(self, box_size):
-        """
-        Handles collisions with the walls of a rectangular box.
+    # def handle_wall_collision(self, box_size):
+    #     """
+    #     Handles collisions with the walls of a rectangular box.
         
-        :param box_size: A tuple (width, height) defining the size of the box.
-        """
-        width, height = box_size
-        # Collision with left or right wall
-        if self.position[0] - self.radius < 0 or self.position[0] + self.radius > width:
-            self.velocity[0] *= -self.material_properties.get('restitution', 1.0)
-        # Collision with bottom or top wall
-        if self.position[1] - self.radius < 0 or self.position[1] + self.radius > height:
-            self.velocity[1] *= -self.material_properties.get('restitution', 1.0)
+    #     :param box_size: A tuple (width, height) defining the size of the box.
+    #     """
+    #     width, height = box_size
+    #     # Collision with left or right wall
+    #     if self.position[0] - self.radius < 0 or self.position[0] + self.radius > width:
+    #         self.velocity[0] *= -self.material_properties.get('restitution', 1.0)
+    #     # Collision with bottom or top wall
+    #     if self.position[1] - self.radius < 0 or self.position[1] + self.radius > height:
+    #         self.velocity[1] *= -self.material_properties.get('restitution', 1.0)
 
     def __repr__(self):
         """
