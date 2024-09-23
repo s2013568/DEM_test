@@ -73,14 +73,14 @@ class DEM2D:
 
             # Check if the particle is colliding with the left or right wall
             if x - p.radius <= 0:
-                self.collisions.append((p, Particle2D(np.array([x - p.radius, y]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=-1)))
+                self.collisions.append((p, Particle2D(np.array([x - p.radius, y]), np.array([0, 0]), 0, orientation=0, radius=p.radius, mass=np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=-1)))
             elif x + p.radius >= self.box.width:
-                self.collisions.append((p, Particle2D(np.array([x + p.radius, y]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=-1)))
+                self.collisions.append((p, Particle2D(np.array([x + p.radius, y]), np.array([0, 0]), 0, orientation=0, radius=p.radius, mass=np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=-1)))
             # Check if the particle is colliding with the top or bottom wall
             if y - p.radius <= 0:
-                self.collisions.append((p, Particle2D(np.array([x, y - p.radius]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id = -1)))  # 'y' indicates vertical wall collision
+                self.collisions.append((p, Particle2D(np.array([x, y - p.radius]), np.array([0, 0]), 0, orientation=0, radius=p.radius, mass=np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id = -1)))  # 'y' indicates vertical wall collision
             elif y + p.radius >= self.box.height:
-                self.collisions.append((p, Particle2D(np.array([x, y + p.radius]), np.array([0, 0]), 0, p.radius, np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id = -1)))  # 'y' indicates vertical wall collision
+                self.collisions.append((p, Particle2D(np.array([x, y + p.radius]), np.array([0, 0]), 0, orientation=0, radius=p.radius, mass=np.inf, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id = -1)))  # 'y' indicates vertical wall collision
 
 
     def update_particle(self, particle):
@@ -98,8 +98,9 @@ class DEM2D:
 
         particle.update_velocity(self.time_step)
 
-        # Update particle's position and velocity using integration
+        # Update particle's position, orientation and velocity using integration
         particle.update_position(self.time_step)
+        particle.update_orientation(self.time_step)
 
     def check_for_contact(self, particle):
         """
@@ -114,7 +115,7 @@ class DEM2D:
         """
         Store the current state of all particles for visualization.
         """
-        particle_states = [(p.position.copy(), p.velocity.copy()) for p in self.particles]
+        particle_states = [(p.position.copy(), p.velocity.copy(), p.orientation) for p in self.particles]
         self.history.append(particle_states)
 
     def visualize(self, save_path=None, save_format="gif", max_frames=100):
@@ -143,14 +144,27 @@ class DEM2D:
             plt.title(f"Time: {self.current_time:.2f}")
 
         # Plot the particles at a specific time step
+        
         def update(step_index):
             step = frame_indices[step_index]  # Get the actual step from the downsampled indices
             ax.clear()
-            init()
+            init() 
+
             particle_states = self.history[step]
-            for (pos, _) in particle_states:
-                circle = plt.Circle(pos, radius=self.particles[0].radius, color='g')
+            
+            for i, (pos, _, ori) in enumerate(particle_states):
+                # Draw particle as a circle
+                circle = plt.Circle(pos, radius=self.particles[i].radius, color='b')
                 ax.add_patch(circle)
+                
+                # Draw the orientation line
+                length = self.particles[i].radius * 0.75
+                x, y = pos
+                
+                end_x = x + length * np.cos(ori)
+                end_y = y + length * np.sin(ori)
+                
+                ax.plot([x, end_x], [y, end_y], color='r', lw=2) 
 
         # Animation using the downsampled frame indices
         self.anim = FuncAnimation(fig, update, frames=len(frame_indices), interval=50)

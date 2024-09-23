@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 class Particle2D:
-    def __init__(self, position, velocity, ang_velocity, radius, mass, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=None):
+    def __init__(self, position, velocity, ang_velocity, orientation, radius, mass, material_properties = {'restitution': 1.0 , 'kinetic friction coeficient': 0}, id=None):
         """
         Initialize a 2D hard disk particle for DEM simulation.
         
@@ -17,6 +17,7 @@ class Particle2D:
         self.position = np.array(position)
         self.velocity = np.array(velocity)
         self.ang_velocity = ang_velocity
+        self.orientation = orientation
         self.radius = radius
         self.mass = mass
         self.material_properties = material_properties
@@ -45,6 +46,14 @@ class Particle2D:
         :param dt: Time step for the simulation.
         """
         self.position += self.velocity * dt
+
+    def update_orientation(self, dt):
+        """
+        Updates the particle's position and velocity using simple integration.
+        
+        :param dt: Time step for the simulation.
+        """
+        self.orientation += self.ang_velocity * dt
 
     def apply_force(self, force):
         """
