@@ -25,6 +25,8 @@ class Particle2D:
         # Force and acceleration properties for 2D
         self.force = np.array([0.0, 0.0])  # Force acting on the particle
         self.acceleration = np.array([0.0, 0.0])  # Acceleration of the particle
+        # magnitude = np.linalg.norm(self.velocity)
+        # self.unit_direction = self.velocity / magnitude
 
         ### derived constants
         self.moment_of_inertia = (1/2) * self.mass * (self.radius ** 2)
