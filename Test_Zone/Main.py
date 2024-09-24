@@ -107,8 +107,9 @@ class DEM2D:
 
         particle.update_velocity(self.time_step)
 
-        # Update particle's position and velocity using integration
+        # Update particle's position, orientation and velocity using integration
         particle.update_position(self.time_step)
+        particle.update_orientation(self.time_step)
 
     def check_for_contact(self, particle):
         """
@@ -160,10 +161,12 @@ class DEM2D:
             ax.grid(True)
 
         # Plot the particles at a specific time step
+        
         def update(step_index):
             step = frame_indices[step_index]  # Get the actual step from the downsampled indices
             ax.clear()
-            init()
+            init() 
+
             particle_states = self.history[step]
 
             for (pos, _, ang) in particle_states:
@@ -175,7 +178,7 @@ class DEM2D:
                 
                 circle = plt.Circle(pos, radius=self.particles[0].radius, color=color)
                 ax.add_patch(circle)
-
+                
             plt.title(f"Time: {self.current_time:.2f}")
 
         # Animation using the downsampled frame indices
