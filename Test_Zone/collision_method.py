@@ -2,7 +2,7 @@ import numpy as np
 import math
 
 ################################
-#Particle Simulation functions#
+#Particle Simulation Using Impulse, hence not a DEMfunctions#
 ################################
 
 def translate_velocity_to_collision_axes(colliding_particle):
