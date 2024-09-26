@@ -6,15 +6,16 @@ from matplotlib.animation import FuncAnimation
 import misc
 
 class GCFModel:
-    def __init__(self, environment, agents, desired_walking_speed = 1.3, time_constant = 1.0, ellipse = True):
+    def __init__(self, environment, agents, desired_walking_speed = 1.3, time_constant = 1.0, ellipse = True, eta = 1.0):
         self.environment = environment
         self.agents = agents
         self.force = Force(self.agents, self.environment, desired_walking_speed, time_constant = time_constant)
         self.ellipse = ellipse
+        self.eta = eta
 
     def calculate_forces(self):
-        self.force.point_direction_method(vector = (10, 5))
-        self.force.calculate_repulsive_forces()
+        self.force.point_direction_method(line_points=((20, 0), (20, 10)))
+        self.force.calculate_repulsive_forces(eta = self.eta)
 
     def update(self, dt):
         """ Update the state of the model by one time step """

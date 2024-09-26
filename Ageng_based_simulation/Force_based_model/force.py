@@ -14,12 +14,37 @@ class Force:
     ### Driving force calculationg methods ###
     ##########################################
 
-    def point_direction_method(self, vector = (11, 5)):
-        desired_location = np.array(vector)
+    def point_direction_method(self, line_points=((20, 0), (20, 10))):
+        # Define the two points of the line
+        point1 = np.array(line_points[0])
+        point2 = np.array(line_points[1])
+        
+        # For each agent, calculate the nearest point on the line
         for agent in self.agents:
-            pointing_vector =  misc.normalize(desired_location - agent.position) * agent.desired_walking_speed
-            agent.driving_force = np.array(agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity))
+            # Get the agent's position
+            agent_pos = agent.position
             
+            # Vector from point1 to point2 (the direction of the line)
+            line_vector = point2 - point1
+            
+            # Vector from point1 to agent position
+            point_to_agent_vector = agent_pos - point1
+            
+            # Project the agent position vector onto the line vector to find the nearest point
+            line_length_squared = np.dot(line_vector, line_vector)
+            t = np.dot(point_to_agent_vector, line_vector) / line_length_squared
+            
+            # Clamp t between 0 and 1 to keep the nearest point on the line segment
+            t = max(0, min(1, t))
+            
+            # Compute the nearest point on the line
+            nearest_point_on_line = point1 + t * line_vector
+            
+            # Calculate the pointing vector (direction) to the nearest point
+            pointing_vector = misc.normalize(nearest_point_on_line - agent_pos) * agent.desired_walking_speed
+            
+            # Compute the driving force
+            agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity)           
             
             
             
@@ -28,8 +53,7 @@ class Force:
     ### Repulsive force calculation ###
     ###################################
     
-    def calculate_repulsive_forces(self, ellipse = True):
-        eta = 0.3
+    def calculate_repulsive_forces(self, ellipse = True, eta = 0.3):
         tau = 1.0
         if not ellipse:
             for i in range(len(self.agents)):
@@ -63,5 +87,5 @@ class Force:
                         # print(d)
 
                         
-                        self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / (separation - (d))) * separation_unit_vector  
+                        self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / d) * separation_unit_vector  
                         # print(self.agents[i].repulsion_force)
