@@ -1,20 +1,25 @@
 import numpy as np
 from force import Force
+import ffmpeg
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.animation import FuncAnimation
 import misc
+from matplotlib.animation import FFMpegWriter
 
 class GCFModel:
-    def __init__(self, environment, agents, desired_walking_speed = 1.3, time_constant = 1.0, ellipse = True, eta = 1.0):
+    def __init__(self, environment, agents, time_constant = 1.0, ellipse = True, eta = 1.0):
         self.environment = environment
         self.agents = agents
-        self.force = Force(self.agents, self.environment, desired_walking_speed, time_constant = time_constant)
+        self.time_constant = time_constant
+        
+        self.force = Force(self.agents, self.environment, time_constant = time_constant)
         self.ellipse = ellipse
         self.eta = eta
 
     def calculate_forces(self):
-        self.force.point_direction_method(line_points=((20, 0), (20, 10)))
+        self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
+        self.force.point_direction_method(line_points=((100, 5), (100, 5)))
         self.force.calculate_repulsive_forces(eta = self.eta)
 
     def update(self, dt):
@@ -29,7 +34,7 @@ class GCFModel:
             if not self.environment.is_within_walls(agent):
                 agent.velocity *= -1  # Bounce off the walls for simplicity
                 
-            if agent.position[0] >= 10:
+            if agent.position[0] >= 90:
                 agents_to_remove.append(agent)
                 
         self.agents = [agent for agent in self.agents if agent not in agents_to_remove]
@@ -129,6 +134,12 @@ class GCFModel:
 
         # Save the animation as a GIF at 10 frames per second
         anim.save(output_filename, writer='pillow', fps=10000)
+        # anim.save(output_filename, writer='ffmpeg', fps=10000, codec='libx264')
+
+        # writer = FFMpegWriter(fps=100)
+
+        # # Save the animation using FFMpeg writer
+        # anim.save(output_filename, writer=writer)
         
 
         plt.show()
