@@ -1,13 +1,16 @@
 import numpy as np
 from force import Force
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 from matplotlib.animation import FuncAnimation
+import misc
 
 class GCFModel:
-    def __init__(self, environment, agents, desired_walking_speed = 1.3, time_constant = 1.0):
+    def __init__(self, environment, agents, desired_walking_speed = 1.3, time_constant = 1.0, ellipse = True):
         self.environment = environment
         self.agents = agents
         self.force = Force(self.agents, self.environment, desired_walking_speed, time_constant = time_constant)
+        self.ellipse = ellipse
 
     def calculate_forces(self):
         self.force.point_direction_method(vector = (10, 5))
@@ -54,7 +57,8 @@ class GCFModel:
         ax.plot([bottleneck['x_min'], bottleneck['x_max']], [bottleneck['y_min'], bottleneck['y_min']], 'k-')
 
         # Initialize agent positions as unfilled circles
-        agent_circles = [plt.Circle(agent.position, agent.radius, color='b', fill=False, edgecolor='b') for agent in self.agents]
+        # agent_circles = [plt.Circle(agent.position, agent.radius, color='b', fill=False, edgecolor='b') for agent in self.agents]
+        agent_circles = [patches.Ellipse(agent.position, 2*agent.a, 2*agent.b,angle=misc.calculate_angle(agent.velocity), color='b', fill=False, edgecolor='b') for agent in self.agents]
         for circle in agent_circles:
             ax.add_patch(circle)
                 
@@ -83,7 +87,8 @@ class GCFModel:
             self.update(dt)
 
             # Remove agent circles if agents were removed and rebuild list
-            new_agent_circles = [plt.Circle(agent.position, agent.radius, color='b', fill=False, edgecolor='b') for agent in self.agents]
+            # new_agent_circles = [plt.Circle(agent.position, agent.radius, color='b', fill=False, edgecolor='b') for agent in self.agents]
+            new_agent_circles = [patches.Ellipse(agent.position, 2*agent.a, 2*agent.b, angle=misc.calculate_angle(agent.velocity), color='b', fill=False, edgecolor='b') for agent in self.agents]
             
             # Remove old circles
             while len(agent_circles) > len(self.agents):
@@ -93,6 +98,9 @@ class GCFModel:
             # Update existing circles' positions
             for agent, circle in zip(self.agents, agent_circles):
                 circle.center = agent.position
+                circle.angle = misc.calculate_angle(agent.velocity)
+                circle.width = 2 * agent.a
+                circle.height = 2 * agent.b
 
             # Add new circles if necessary
             if len(new_agent_circles) > len(agent_circles):
@@ -120,5 +128,6 @@ class GCFModel:
 
         # Save the animation as a GIF at 10 frames per second
         anim.save(output_filename, writer='pillow', fps=10000)
+        
 
         plt.show()
