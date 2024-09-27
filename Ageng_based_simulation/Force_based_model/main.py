@@ -1,6 +1,5 @@
 import numpy as np
 from force import Force
-import ffmpeg
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.animation import FuncAnimation
@@ -133,7 +132,7 @@ class GCFModel:
                             init_func=init, blit=True, interval=interval)
 
         # Save the animation as a GIF at 10 frames per second
-        anim.save(output_filename, writer='pillow', fps=10000)
+        anim.save(output_filename, writer='pillow', fps=50000)
         # anim.save(output_filename, writer='ffmpeg', fps=10000, codec='libx264')
 
         # writer = FFMpegWriter(fps=100)
