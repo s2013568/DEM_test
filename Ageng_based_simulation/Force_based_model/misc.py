@@ -24,3 +24,26 @@ def closest_distance_between_ellipses(agent1, agent2):
 def calculate_angle(velocity):
     # Compute the angle in degrees from the velocity vector
     return np.degrees(np.arctan2(velocity[1], velocity[0]))
+
+
+def calculate_shortest_distance_between_point_and_line(agent, line_points):
+    point1 = np.array(line_points[0])
+    point2 = np.array(line_points[1])
+    agent_pos = agent.position
+    line_vector = point2 - point1
+    line_length_squared = np.dot(line_vector, line_vector)
+    point_to_agent_vector = agent_pos - point1
+    t = np.dot(point_to_agent_vector, line_vector) / line_length_squared
+    t = max(0, min(1, t))
+    nearest_point_on_line = point1 + t * line_vector
+    d = nearest_point_on_line - agent_pos
+    d_mag = np.linalg.norm(d)
+    d_unit = d / d_mag
+    return d_mag, normalize(line_vector), nearest_point_on_line, point1, point2
+    
+    
+def det_numpy(A, B):
+    # Stack vectors A and B as columns of a 2x2 matrix
+    matrix = np.column_stack((A, B))
+    # Compute the determinant of the 2x2 matrix
+    return np.linalg.det(matrix)

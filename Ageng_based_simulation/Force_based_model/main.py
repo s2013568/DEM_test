@@ -18,8 +18,9 @@ class GCFModel:
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
-        self.force.point_direction_method(line_points=((100, 5), (100, 5)))
+        self.force.point_direction_method(line_points=((10, 5), (10, 5)))
         self.force.calculate_repulsive_forces(eta = self.eta)
+        self.force.calculate_wall_force()
 
     def update(self, dt):
         """ Update the state of the model by one time step """
@@ -33,7 +34,7 @@ class GCFModel:
             if not self.environment.is_within_walls(agent):
                 agent.velocity *= -1  # Bounce off the walls for simplicity
                 
-            if agent.position[0] >= 90:
+            if agent.position[0] >= 100:
                 agents_to_remove.append(agent)
                 
         self.agents = [agent for agent in self.agents if agent not in agents_to_remove]
@@ -132,7 +133,7 @@ class GCFModel:
                             init_func=init, blit=True, interval=interval)
 
         # Save the animation as a GIF at 10 frames per second
-        anim.save(output_filename, writer='pillow', fps=50000)
+        anim.save(output_filename, writer='pillow', fps=50000000)
         # anim.save(output_filename, writer='ffmpeg', fps=10000, codec='libx264')
 
         # writer = FFMpegWriter(fps=100)
@@ -142,3 +143,31 @@ class GCFModel:
         
 
         plt.show()
+
+
+
+    def run_simulation(self, steps, dt=0.1, log_interval=10, verbose=True):
+        """
+        Run the simulation for a given number of steps without animation.
+        Useful for debugging by logging agent positions, velocities, and forces.
+
+        Parameters:
+        - steps: Number of steps to run the simulation.
+        - dt: Time step for each update.
+        - log_interval: How often to log the simulation state (in number of steps).
+        - verbose: If True, print agent states to the console.
+        """
+        for step in range(steps):
+            # Update the positions and forces of agents
+            self.update(dt)
+
+            # Log the state of the simulation at regular intervals
+            if step % log_interval == 0:
+                if verbose:
+                    print(f"Step {step}:")
+                    for i, agent in enumerate(self.agents):
+                        print(f"  Agent {i}: Position: {agent.position}, Velocity: {agent.velocity}, Force: {agent.total_force}")
+
+            # Debug: If something specific is wrong, you could add more checks or logging here
+
+        print("Simulation complete.")

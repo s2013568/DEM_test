@@ -41,9 +41,9 @@ class Agent:
         self.a = self.a_min + self.tau * np.linalg.norm(self.velocity)
         self.b = self.f * self.b_min - ((self.f-1) * self.b_min * np.linalg.norm(self.velocity) / self.desired_walking_speed)
 
-        if self.position[0] > 50 and self.stopped == False:
-            self.velocity = np.array([0.0, 0.0])
-            self.stopped = True
+        # if self.position[0] > 50 and self.stopped == False:
+        #     self.velocity = np.array([0.0, 0.0])
+        #     self.stopped = True
         
 
         
