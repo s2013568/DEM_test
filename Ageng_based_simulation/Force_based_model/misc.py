@@ -49,3 +49,61 @@ def det_numpy(A, B):
     matrix = np.column_stack((A, B))
     # Compute the determinant of the 2x2 matrix
     return np.linalg.det(matrix)
+
+
+
+def contact_distance_between_two_ellipse(agent1, agent2):
+    k1 = normalize(agent1.velocity)
+    b1 = agent1.b
+    a1 = agent1.a
+    eta = (a1 / b1) - 1
+    T = (1 /b1) * (np.identity(2) + ((b1 / a1) - 1) * np.outer(k1, k1))
+    Tinv = b1 * (np.identity(2) + eta * np.outer(k1, k1))
+    
+    
+    
+    
+def calculate_closest_distance(agent1, agent2):
+    """
+    Calculate the closest distance between two ellipses with semi-major axes a1, a2,
+    semi-minor axes b1, b2, and orientation vectors k1, k2.
+
+    Parameters:
+        a1, b1: Semi-major and semi-minor axes of ellipse 1.
+        a2, b2: Semi-major and semi-minor axes of ellipse 2.
+        k1, k2: Orientation unit vectors for ellipses 1 and 2.
+
+    Returns:
+        The closest distance between the centers of the two ellipses.
+    """
+    
+    a1, b1 = agent1.a, agent1.b
+    a2, b2 = agent2.a, agent2.b
+    k1, k2 = normalize(agent1.velocity), normalize(agent2.velocity)
+    
+    # Step 1: Transformation matrix T to transform E1 into a unit circle
+    e1 = np.sqrt(1 - (b1**2 / a1**2))
+    e2 = np.sqrt(1 - (b2**2 / a2**2))
+    
+    # Equation (4): T is a transformation matrix that scales the ellipse
+    def transformation_matrix(a, b, k):
+        I = np.identity(2)
+        k_k = np.outer(k, k)
+        T = (1 / b) * (I + (b/a - 1) * k_k)
+        return T
+    
+    T1 = transformation_matrix(a1, b1, k1)
+    
+    # Step 2: Transform the second ellipse
+    d_hat = np.dot(T1, k2) / np.linalg.norm(np.dot(T1, k2))
+    
+    # Step 3: Apply transformed distances (Equation 36)
+    def distance_transformed(a2, b2, e1, d_hat):
+        return (1 / b1) * (1 / np.sqrt(1 - e1**2 * (np.dot(d_hat, k1))**2))
+    
+    d_transformed = distance_transformed(a2, b2, e1, d_hat)
+    
+    # Inverse transformation to get the actual distance (Equation 35)
+    distance = d_transformed / np.linalg.norm(T1)
+    
+    return distance

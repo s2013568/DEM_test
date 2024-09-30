@@ -57,6 +57,9 @@ class Force:
     
     def calculate_repulsive_forces(self, ellipse = True, eta = 0.2):
         tau = 1.0
+        reps = 0.1
+        rc = 2
+        
         if not ellipse:
             for i in range(len(self.agents)):
                 self.agents[i].reset()
@@ -77,7 +80,9 @@ class Force:
                 self.agents[i].reset()
                 for j in range(len(self.agents)):
                     if i != j:
+                        
                         separation = np.linalg.norm(self.agents[j].position - self.agents[i].position)
+
                         separation_unit_vector = (self.agents[j].position - self.agents[i].position) / separation
                         relative_velocity = (1 / 2) * (np.dot((self.agents[i].velocity - self.agents[j].velocity), separation_unit_vector) + abs(np.dot((self.agents[i].velocity - self.agents[j].velocity), separation_unit_vector)))
                         if np.linalg.norm(self.agents[i].velocity) != 0:
@@ -86,11 +91,20 @@ class Force:
                             reduced_vision_factor = 0
                         d = misc.closest_distance_between_ellipses(self.agents[i], self.agents[j])
 
-
-                        
-                        self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / d) * separation_unit_vector  
-                print(f'agent{i} force = {self.agents[i].repulsion_force}')
-                print(self.agents[i].velocity)
+                        if d < reps:
+                            l_hat = misc.calculate_closest_distance(self.agents[i], self.agents[j])
+                            Frep = (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / reps)
+                            print(f'Frep{Frep}')
+                            print(reduced_vision_factor)
+                            self.agents[i].repulsion_force -= (((-2 * Frep) / (reps - l_hat)) * d + 3*Frep) * separation_unit_vector
+                            print(self.agents[i].repulsion_force / Frep)
+                            
+                        elif d > rc - reps:
+                            Fc = (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / (rc - reps))
+                            self.agents[i].repulsion_force -= ((Fc) / (rc - reps)) * (d - rc + reps) * separation_unit_vector
+                            
+                        else:
+                            self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / d) * separation_unit_vector  
                         
     def calculate_wall_force(self, ellipse = True, eta_alt = 5):
         for agent in self.agents:
