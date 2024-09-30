@@ -19,7 +19,9 @@ def closest_distance_between_ellipses(agent1, agent2):
     r1 = np.sqrt(1 / q1)
     r2 = np.sqrt(1 / q2)
     
-    return np.linalg.norm(agent1.position - agent2.position) - r1 - r2
+    h = np.linalg.norm(agent1.position - agent2.position) - r1 - r2
+    
+    return h
 
 def calculate_angle(velocity):
     # Compute the angle in degrees from the velocity vector

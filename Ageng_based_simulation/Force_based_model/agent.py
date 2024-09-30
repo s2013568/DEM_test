@@ -2,7 +2,7 @@ import numpy as np
 from force import Force
 
 class Agent:
-    def __init__(self, position, velocity, mass=1.0, a_min = 1.0, b_min = 0.5, desired_walking_speed = 1.3, tau = 0.5, f = 3, ellipse = True):
+    def __init__(self, position, velocity, mass=1.0, a_min = 0.18, b_min = 0.5, desired_walking_speed = 1.3, tau = 0.53, f = 3, ellipse = True, test = False):
         # 2D position and velocity (as numpy arrays for vector operations)
         self.position = np.array(position)
         self.velocity = np.array(velocity)
@@ -17,6 +17,7 @@ class Agent:
 
         self.tau = tau
         self.f = f
+        self.test = test
         ### internal variables ###
         self.driving_force = np.array([0.0, 0.0])
         self.repulsion_force = np.array([0.0, 0.0])
@@ -26,10 +27,18 @@ class Agent:
         self.b = self.f * self.b_min - ((self.f-1) * self.b_min * np.linalg.norm(self.velocity) / self.desired_walking_speed)
 
         self.stopped = False
+        
+        self.memory = {'t_in' : -1, 
+                       't_out' : -1,
+                       'x_in' : 12,
+                       'x_out' : 14}
 
     
     def move(self, dt):
         self.total_force = self.driving_force + self.repulsion_force
+        # print(self.repulsion_force)
+        # print(self.driving_force)
+        # print(self.total_force)
         # print(f'total_force:{self.total_force}')
         # print(f'driving_force:{self.driving_force}')
         # print(f'repulsion force:{self.repulsion_force}')
@@ -49,6 +58,9 @@ class Agent:
         
     def reset(self):
         self.repulsion_force = np.array([0.0, 0.0])
+        
+    def add_force(self):
+        self.total_force = self.repulsion_force + self.driving_force
 
         
     def __repr__(self):

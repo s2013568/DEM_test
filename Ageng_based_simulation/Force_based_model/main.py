@@ -5,9 +5,10 @@ import matplotlib.patches as patches
 from matplotlib.animation import FuncAnimation
 import misc
 from matplotlib.animation import FFMpegWriter
+import measurement
 
 class GCFModel:
-    def __init__(self, environment, agents, time_constant = 1.0, ellipse = True, eta = 1.0):
+    def __init__(self, environment, agents, time_constant = 0.5, ellipse = True, eta = 1.0, x_min = 12, x_max = 14):
         self.environment = environment
         self.agents = agents
         self.time_constant = time_constant
@@ -15,27 +16,42 @@ class GCFModel:
         self.force = Force(self.agents, self.environment, time_constant = time_constant)
         self.ellipse = ellipse
         self.eta = eta
+        
+        self.current_step = 0
+        self.x_min = x_min
+        self.x_max = x_max
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
-        self.force.point_direction_method(line_points=((10, 5), (10, 5)))
+        self.force.point_direction_method(line_points=((30, 0), (30, 3)))
         self.force.calculate_repulsive_forces(eta = self.eta)
-        self.force.calculate_wall_force()
+        # self.force.calculate_wall_force()
 
     def update(self, dt):
         """ Update the state of the model by one time step """
         self.calculate_forces()  # Calculate forces for all agents
+        self.current_step += 1
         agents_to_remove = []
+        print(self.current_step)
 
-        for agent in self.agents:
+        for agent in reversed(self.agents):
             agent.move(dt)  # Move the agent based on the updated velocity
+            
             
             # Check if the agent hits a wall, and reverse velocity if needed
             if not self.environment.is_within_walls(agent):
                 agent.velocity *= -1  # Bounce off the walls for simplicity
                 
+            if self.environment.periodic:
+                self.environment.apply_periodic_boundary(agent)
+                
             if agent.position[0] >= 100:
                 agents_to_remove.append(agent)
+                
+            if agent.test:
+                if self.environment.is_in_test_region(agent, self.x_min, self.x_max, self.current_step):
+                    self.environment.ins_density.append(measurement.find_inst_time_density(self.environment, agent, self.x_min, self.x_max, self.current_step, self.agents))
+                
                 
         self.agents = [agent for agent in self.agents if agent not in agents_to_remove]
 

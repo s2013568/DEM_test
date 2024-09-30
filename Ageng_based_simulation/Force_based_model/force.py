@@ -2,7 +2,7 @@ import numpy as np
 import misc
 
 class Force:
-    def __init__(self, agents, environment, time_constant = 1.0):
+    def __init__(self, agents, environment, time_constant = 0.5):
         self.agents = agents
         self.environment = environment
         self.time_constant = time_constant
@@ -13,7 +13,7 @@ class Force:
     ### Driving force calculationg methods ###
     ##########################################
 
-    def point_direction_method(self, line_points=((7.5, 5), (7.5, 5))):
+    def point_direction_method(self, line_points=((30, 0), (30, 20))):
         # Define the two points of the line
         point1 = np.array(line_points[0])
         point2 = np.array(line_points[1])
@@ -55,7 +55,7 @@ class Force:
     ### Repulsive force calculation ###
     ###################################
     
-    def calculate_repulsive_forces(self, ellipse = True, eta = 0.3):
+    def calculate_repulsive_forces(self, ellipse = True, eta = 0.2):
         tau = 1.0
         if not ellipse:
             for i in range(len(self.agents)):
@@ -71,8 +71,7 @@ class Force:
                             reduced_vision_factor = 0
 
                         
-                        self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / (separation - (self.agents[i].radius + tau * self.agents[i].velocity) - (self.agents[j].radius + + tau * self.agents[i].velocity))) * separation_unit_vector  
-
+                        self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / (separation - (self.agents[i].a + tau * self.agents[i].velocity) - (self.agents[j].a + tau * self.agents[i].velocity))) * separation_unit_vector  
         else:
             for i in range(len(self.agents)):
                 self.agents[i].reset()
@@ -86,14 +85,16 @@ class Force:
                         else:
                             reduced_vision_factor = 0
                         d = misc.closest_distance_between_ellipses(self.agents[i], self.agents[j])
-                        # print(d)
+
 
                         
                         self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / d) * separation_unit_vector  
-                        # print(self.agents[i].repulsion_force)
+                print(f'agent{i} force = {self.agents[i].repulsion_force}')
+                print(self.agents[i].velocity)
                         
     def calculate_wall_force(self, ellipse = True, eta_alt = 5):
         for agent in self.agents:
+            agent.reset()
             wall_to_interact = 0
             D_mag = 999
             D = np.array([0, 0])
@@ -156,17 +157,18 @@ class Force:
             biw = np.heaviside(1 - D_mag / (l + r), 1) * (1 - D_mag / (l + r))
             
             
-            print(D[1])
-            print(f'P:{P}')
-            print(f'D_mag:{D_mag}')
-            print(f'biw:{biw}')
-            print(f'l:{l}')
-            print(f'r:{r}')
-            print(f'b_value:{b_value}')
-            print(f'd_value:{d_value}')
-            print(self.wallxy)
+            # print(D[1])
+            # print(f'P:{P}')
+            # print(f'D_mag:{D_mag}')
+            # print(f'biw:{biw}')
+            # print(f'l:{l}')
+            # print(f'r:{r}')
+            # print(f'b_value:{b_value}')
+            # print(f'd_value:{d_value}')
+            # print(self.wallxy)
             
             f = eta_alt * agent.desired_walking_speed * reduced_vision_factor * biw * misc.normalize(P - agent.position)
-            print(f'wall force: {f}')
+            # print(f'wall force: {f}')
             
             agent.repulsion_force -= f
+            agent.add_force()
