@@ -23,7 +23,7 @@ class GCFModel:
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
-        self.force.point_direction_method(line_points=((30, 0), (30, 3)))
+        self.force.point_direction_method(line_points=((50, 0), (50, 3)))
         self.force.calculate_repulsive_forces(eta = self.eta)
         # self.force.calculate_wall_force()
 
@@ -33,7 +33,7 @@ class GCFModel:
         self.current_step += 1
         agents_to_remove = []
         print(self.current_step)
-
+        passed = False
         for agent in reversed(self.agents):
             agent.move(dt)  # Move the agent based on the updated velocity
             
@@ -48,9 +48,12 @@ class GCFModel:
             if agent.position[0] >= 100:
                 agents_to_remove.append(agent)
                 
-            if agent.test:
+            if agent.test == True:
                 if self.environment.is_in_test_region(agent, self.x_min, self.x_max, self.current_step):
+                    if passed:
+                        self.environment.ins_density = []
                     self.environment.ins_density.append(measurement.find_inst_time_density(self.environment, agent, self.x_min, self.x_max, self.current_step, self.agents))
+                    passed = True
                 
                 
         self.agents = [agent for agent in self.agents if agent not in agents_to_remove]

@@ -60,6 +60,26 @@ class Force:
         reps = 0.1
         rc = 2
         
+        def apply_periodic_distance(agent_i_pos, agent_j_pos):
+                """Calculate minimum separation between two agents with periodic boundaries."""
+                dx = agent_j_pos[0] - agent_i_pos[0]
+                dy = agent_j_pos[1] - agent_i_pos[1]
+
+                applied = False
+
+                # Apply periodic boundaries along the x-axis
+                if abs(dx) > self.environment.width / 2:
+                    dx = dx - np.sign(dx) * self.environment.width
+
+                    applied = True
+
+                # Apply periodic boundaries along the y-axis
+                if abs(dy) > self.environment.height / 2:
+                    dy = dy - np.sign(dy) * self.environment.height
+                    applied = True
+
+                return np.array([dx, dy]), applied
+
         if not ellipse:
             for i in range(len(self.agents)):
                 self.agents[i].reset()
@@ -81,25 +101,25 @@ class Force:
                 for j in range(len(self.agents)):
                     if i != j:
                         
-                        separation = np.linalg.norm(self.agents[j].position - self.agents[i].position)
-
-                        separation_unit_vector = (self.agents[j].position - self.agents[i].position) / separation
+                        separation_vector, applied= apply_periodic_distance(self.agents[i].position, self.agents[j].position)
+                        separation = np.linalg.norm(separation_vector)
+                        separation_unit_vector = separation_vector / separation
                         relative_velocity = (1 / 2) * (np.dot((self.agents[i].velocity - self.agents[j].velocity), separation_unit_vector) + abs(np.dot((self.agents[i].velocity - self.agents[j].velocity), separation_unit_vector)))
                         if np.linalg.norm(self.agents[i].velocity) != 0:
                             reduced_vision_factor = (np.dot(self.agents[i].velocity, separation_unit_vector) + abs(np.dot(self.agents[i].velocity, separation_unit_vector))) / (2 * np.linalg.norm(self.agents[i].velocity))
                         else:
                             reduced_vision_factor = 0
-                        d = misc.closest_distance_between_ellipses(self.agents[i], self.agents[j])
-
+                        d = misc.closest_distance_between_ellipses(self.agents[i], self.agents[j], self.environment)
+                        # if d > 0:
+                        #     print(relative_velocity)
                         if d < reps:
                             l_hat = misc.calculate_closest_distance(self.agents[i], self.agents[j])
                             Frep = (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / reps)
-                            print(f'Frep{Frep}')
-                            print(reduced_vision_factor)
                             self.agents[i].repulsion_force -= (((-2 * Frep) / (reps - l_hat)) * d + 3*Frep) * separation_unit_vector
-                            print(self.agents[i].repulsion_force / Frep)
-                            
-                        elif d > rc - reps:
+                        elif d > rc:
+                            self.agents[i].repulsion_force += 0
+
+                        elif d > rc - reps and d < rc:
                             Fc = (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / (rc - reps))
                             self.agents[i].repulsion_force -= ((Fc) / (rc - reps)) * (d - rc + reps) * separation_unit_vector
                             

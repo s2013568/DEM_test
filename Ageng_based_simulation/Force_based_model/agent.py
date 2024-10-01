@@ -33,6 +33,7 @@ class Agent:
                        'x_in' : 12,
                        'x_out' : 14}
 
+        self.memory_lock = False
     
     def move(self, dt):
         self.total_force = self.driving_force + self.repulsion_force

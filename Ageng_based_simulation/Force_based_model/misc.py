@@ -5,8 +5,23 @@ def normalize(v):
        return v
     return v / norm
 
-def closest_distance_between_ellipses(agent1, agent2):
-    separation_unit_vector = normalize(agent1.position - agent2.position)
+def apply_periodic_distance(agent_i_pos, agent_j_pos, env):
+    """Calculate minimum separation between two agents with periodic boundaries."""
+    dx = agent_j_pos[0] - agent_i_pos[0]
+    dy = agent_j_pos[1] - agent_i_pos[1]
+
+    # Apply periodic boundaries along the x-axis
+    if abs(dx) > env.width / 2:
+        dx = dx - np.sign(dx) * env.width
+
+    # Apply periodic boundaries along the y-axis
+    if abs(dy) > env.height / 2:
+        dy = dy - np.sign(dy) * env.height
+
+    return np.array([dx, dy])
+
+def closest_distance_between_ellipses(agent1, agent2, env):
+    separation_unit_vector = normalize(apply_periodic_distance(agent1.position, agent2.position, env))
     velocity_unit_vector1 = normalize(agent1.velocity)
     velocity_unit_vector2 = normalize(agent2.velocity)
     angle1 = np.arccos(np.dot(velocity_unit_vector1, separation_unit_vector))
@@ -19,7 +34,7 @@ def closest_distance_between_ellipses(agent1, agent2):
     r1 = np.sqrt(1 / q1)
     r2 = np.sqrt(1 / q2)
     
-    h = np.linalg.norm(agent1.position - agent2.position) - r1 - r2
+    h = np.linalg.norm(apply_periodic_distance(agent1.position, agent2.position, env)) - r1 - r2
     
     return h
 
@@ -61,8 +76,6 @@ def contact_distance_between_two_ellipse(agent1, agent2):
     Tinv = b1 * (np.identity(2) + eta * np.outer(k1, k1))
     
     
-    
-    
 def calculate_closest_distance(agent1, agent2):
     """
     Calculate the closest distance between two ellipses with semi-major axes a1, a2,
@@ -76,7 +89,6 @@ def calculate_closest_distance(agent1, agent2):
     Returns:
         The closest distance between the centers of the two ellipses.
     """
-    
     a1, b1 = agent1.a, agent1.b
     a2, b2 = agent2.a, agent2.b
     k1, k2 = normalize(agent1.velocity), normalize(agent2.velocity)
