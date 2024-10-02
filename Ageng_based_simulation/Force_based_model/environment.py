@@ -92,29 +92,24 @@ class Environment:
         """Apply periodic boundary condition for agents using modulo."""
         if self.periodic:
             x, y = agent.position
-            x = x % self.width
-            y = y % self.height
-            agent.position = np.array([x, y])
-            
-    def is_in_test_region(self, agent, x_min, x_max, current_time):
-        x, y = agent.position
-        # Check left region
-        if x <= x_max and x >= x_min:
-            if not agent.memory_lock:
-                print('got in')
-                agent.memory['t_in'] = current_time
-                agent.memory['x_min'] = x_min
-                agent.memory_lock = True
-            return True
-        elif x > x_max and agent.memory_lock:
-            print('got out')
-            agent.memory['t_out'] = current_time
-            agent.memory['x_max'] = x_max
-            agent.memory_lock = False
-            return False
+            if x > self.width or y > self.height:
+                x = x % self.width
+                y = y % self.height
+                agent.position = np.array([x, y])
+                return True
+            else:
+                return False
         else:
             return False
-
+            
+    def write_memory(self, agent, x_min, x_max, current_time):
+        if agent.testing and not agent.tested and agent.memory['t_in'] == -1:
+            agent.memory['t_in'] = current_time
+            agent.memory['x_min'] = x_min
+        
+        elif not agent.testing and agent.tested and agent.memory['t_out'] == -1:
+            agent.memory['t_out'] = current_time
+            agent.memory['x_max'] = x_max
 
     def __repr__(self):
         return (f"Environment(width={self.width}, height={self.height}, "

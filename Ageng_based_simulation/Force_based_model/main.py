@@ -8,7 +8,7 @@ from matplotlib.animation import FFMpegWriter
 import measurement
 
 class GCFModel:
-    def __init__(self, environment, agents, time_constant = 0.5, ellipse = True, eta = 1.0, x_min = 12, x_max = 14):
+    def __init__(self, environment, agents, time_constant = 0.5, ellipse = True, eta = 1.0, x_min = 0, x_max = 26):
         self.environment = environment
         self.agents = agents
         self.time_constant = time_constant
@@ -20,6 +20,7 @@ class GCFModel:
         self.current_step = 0
         self.x_min = x_min
         self.x_max = x_max
+        self.environment.ins_density = []
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
@@ -32,8 +33,8 @@ class GCFModel:
         self.calculate_forces()  # Calculate forces for all agents
         self.current_step += 1
         agents_to_remove = []
-        print(self.current_step)
-        passed = False
+        flipped = False
+        # print(self.current_step)
         for agent in reversed(self.agents):
             agent.move(dt)  # Move the agent based on the updated velocity
             
@@ -43,17 +44,21 @@ class GCFModel:
                 agent.velocity *= -1  # Bounce off the walls for simplicity
                 
             if self.environment.periodic:
-                self.environment.apply_periodic_boundary(agent)
-                
+                flipped = self.environment.apply_periodic_boundary(agent)
+                if agent.test:
+                    if self.current_step > 10000 and flipped and not agent.tested and not agent.testing:
+                        agent.testing = True
+                    elif self.current_step > 10000 and flipped and agent.testing:
+                        agent.testing = False
+                        agent.tested = True
             if agent.position[0] >= 100:
                 agents_to_remove.append(agent)
                 
-            if agent.test == True:
-                if self.environment.is_in_test_region(agent, self.x_min, self.x_max, self.current_step):
-                    if passed:
-                        self.environment.ins_density = []
-                    self.environment.ins_density.append(measurement.find_inst_time_density(self.environment, agent, self.x_min, self.x_max, self.current_step, self.agents))
-                    passed = True
+            if agent.test:
+                self.environment.write_memory(agent, self.x_min, self.x_max, self.current_step)
+
+                if agent.testing and not agent.tested:
+                    self.environment.ins_density.append(measurement.find_inst_time_density(agent, self.x_min, self.x_max, self.agents))
                 
                 
         self.agents = [agent for agent in self.agents if agent not in agents_to_remove]
@@ -184,8 +189,9 @@ class GCFModel:
             if step % log_interval == 0:
                 if verbose:
                     print(f"Step {step}:")
-                    for i, agent in enumerate(self.agents):
-                        print(f"  Agent {i}: Position: {agent.position}, Velocity: {agent.velocity}, Force: {agent.total_force}")
+                    agent = self.agents[0]
+                    print(f"  Agent {0}: Position: {agent.position}, Velocity: {agent.velocity}, Force: {agent.total_force}")
+                    print(f" Test_agent: {agent.test}, agent_testing: {agent.testing}, agent_tested: {agent.tested}")
 
             # Debug: If something specific is wrong, you could add more checks or logging here
 

@@ -30,11 +30,13 @@ class Agent:
         
         self.memory = {'t_in' : -1, 
                        't_out' : -1,
-                       'x_in' : 12,
-                       'x_out' : 14}
+                       'x_in' : 0,
+                       'x_out' : 26}
 
         self.memory_lock = False
-    
+        self.tested = False
+        self.testing = False
+
     def move(self, dt):
         self.total_force = self.driving_force + self.repulsion_force
         # print(self.repulsion_force)

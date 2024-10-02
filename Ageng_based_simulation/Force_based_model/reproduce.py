@@ -7,10 +7,10 @@ import random
 
 
 # Function to create agents evenly spaced across the field, avoiding overlap with the test agent
-def create_agents(num_agents, canvas_width=26.0, safe_zone_start=17.5, safe_zone_end=19.5):
+def create_agents(num_agents, canvas_width=26.0, safe_zone_start=0.5, safe_zone_end=2.5):
     agents = [
-        Agent(position=[18.5, 1], velocity=[0.0, 0.0], a_min=0.18, b_min=0.1, tau=0.53, f=1.25, 
-              desired_walking_speed=random.gauss(1.34, 0.26), test=True)  # Test agent at position 18.5
+        Agent(position=[1.5, 1.0], velocity=[0.0, 0.0], a_min=0.18, b_min=0.1, tau=0.53, f=1.25, 
+              desired_walking_speed=1.34, test=True)  # Test agent at position 18.5
     ]
 
     # Calculate the total available width outside the safe zone
@@ -32,13 +32,16 @@ def create_agents(num_agents, canvas_width=26.0, safe_zone_start=17.5, safe_zone
     return agents
 
 # Function to run a single simulation and log the test agent's velocity and density
-def run_single_simulation(num_agents, steps=5000, dt=0.01, log_interval=100):
+def run_single_simulation(num_agents, steps=5000, dt=0.01, log_interval=1000):
     env = Environment(width=26, height=3, bottleneck_width=0, bottleneck_height=0, periodic=True)
     agents = create_agents(num_agents)
     
     gcf_model = GCFModel(environment=env, agents=agents, time_constant=0.5, eta=0.2)
     gcf_model.run_simulation(steps=steps, dt=dt, log_interval=log_interval)
     
+    print(agents[0].memory)
+    # print(env.ins_density)
+    # print(len(env.ins_density))
     # Calculate average velocity and density for the test agent
     v = measurement.find_average_velocity(agents[0])
     density = measurement.find_averaged_density(env.ins_density, agents[0], 0.01)
@@ -46,15 +49,17 @@ def run_single_simulation(num_agents, steps=5000, dt=0.01, log_interval=100):
     return v, density
 
 # Main function to run multiple simulations with varying number of agents
-def run_multiple_simulations(agent_counts, steps=10000, dt=0.01, log_interval=100):
+def run_multiple_simulations(agent_counts, steps=25001, dt=0.01, log_interval=5000):
     results = []
     
     for num_agents in agent_counts:
         print(f"Running simulation with {num_agents} agents...")
         v, density = run_single_simulation(num_agents, steps, dt, log_interval)
         results.append((num_agents, v, density))
+        # print(num_agents, v, density)
     
     return results
+
 
 # Function to write the simulation results to a CSV file
 def write_results_to_csv(filename, results):
@@ -65,7 +70,8 @@ def write_results_to_csv(filename, results):
         writer.writerows(results)
 
 # Define the number of agents to test (start with 10 agents and increase)
-agent_counts = [10]
+agent_counts = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+# agent_counts = [2]
 
 # Run the simulations
 results = run_multiple_simulations(agent_counts)
