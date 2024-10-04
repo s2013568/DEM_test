@@ -26,7 +26,7 @@ def create_agents(num_agents, canvas_width=26.0, safe_zone_start=0.5, safe_zone_
             current_x_position = safe_zone_end + space_between_agents
         
         agents.append(Agent(position=[current_x_position, 1], velocity=[0.0, 0.0], a_min=0.18, b_min=0.1, tau=0.53, 
-                            f=1.25, desired_walking_speed=random.gauss(1.34, 0.26)))
+                            f=1.25, desired_walking_speed=1.34))
         current_x_position += space_between_agents
 
     return agents
