@@ -1,20 +1,25 @@
 import numpy as np
 class Environment:
-    def __init__(self, width, height, bottleneck_width, bottleneck_height, periodic=False):
+    def __init__(self, width, height, bottleneck_width, bottleneck_height, location=(0, 0), periodic=False):
         self.width = width
         self.height = height
         self.bottleneck_width = bottleneck_width
         self.bottleneck_height = bottleneck_height
-        self.periodic = periodic  # Added periodic boundary condition flag
+        self.location = location  # Location offset for the bottleneck's center
+        self.periodic = periodic  # Periodic boundary condition flag
+
+        # Calculate bottleneck's center position based on the location offset
+        center_x = width / 2 + location[0]
+        center_y = height / 2 + location[1]
 
         # Define the left and right regions and bottleneck
-        self.left_region = {'x_min': 0, 'x_max': (width - bottleneck_width) / 2, 'y_min': 0, 'y_max': height}
-        self.right_region = {'x_min': (width + bottleneck_width) / 2, 'x_max': width, 'y_min': 0, 'y_max': height}
-        self.bottleneck = {'x_min': (width - bottleneck_width) / 2, 
-                           'x_max': (width + bottleneck_width) / 2,
-                           'y_min': (height - bottleneck_height) / 2,
-                           'y_max': (height + bottleneck_height) / 2}
-        
+        self.left_region = {'x_min': 0, 'x_max': center_x - bottleneck_width / 2, 'y_min': 0, 'y_max': height}
+        self.right_region = {'x_min': center_x + bottleneck_width / 2, 'x_max': width, 'y_min': 0, 'y_max': height}
+        self.bottleneck = {'x_min': center_x - bottleneck_width / 2, 
+                           'x_max': center_x + bottleneck_width / 2,
+                           'y_min': center_y - bottleneck_height / 2,
+                           'y_max': center_y + bottleneck_height / 2}
+
         self.ins_density = []
         
         # Walls are only used if periodic is False

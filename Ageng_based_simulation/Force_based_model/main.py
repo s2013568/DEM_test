@@ -21,12 +21,17 @@ class GCFModel:
         self.x_min = x_min
         self.x_max = x_max
         self.environment.ins_density = []
+        
+        self.agent_count_passed = 0
+        
+        self.recorded_step_of_passing = []
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
-        self.force.point_direction_method(line_points=((50, 0), (50, 3)))
+        # self.force.point_direction_method(line_points=((50, 0), (50, 3)))
+        self.force.strat_1()
         self.force.calculate_repulsive_forces(eta = self.eta)
-        # self.force.calculate_wall_force()
+        self.force.calculate_wall_force()
 
     def update(self, dt):
         """ Update the state of the model by one time step """
@@ -51,8 +56,10 @@ class GCFModel:
                     elif self.current_step > 10000 and flipped and agent.testing:
                         agent.testing = False
                         agent.tested = True
-            if agent.position[0] >= 100:
+            if agent.position[0] >= 26.4:
                 agents_to_remove.append(agent)
+                self.agent_count_passed += 1
+                
                 
             if agent.test:
                 self.environment.write_memory(agent, self.x_min, self.x_max, self.current_step)
@@ -184,6 +191,9 @@ class GCFModel:
         for step in range(steps):
             # Update the positions and forces of agents
             self.update(dt)
+            if self.agent_count_passed >= 50:
+                self.recorded_step_of_passing.append(self.current_step)
+                break
 
             # Log the state of the simulation at regular intervals
             if step % log_interval == 0:
