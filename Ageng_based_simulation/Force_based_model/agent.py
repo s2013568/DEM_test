@@ -21,7 +21,8 @@ class Agent:
         ### internal variables ###
         self.driving_force = np.array([0.0, 0.0])
         self.repulsion_force = np.array([0.0, 0.0])
-        self.total_force = self.driving_force + self.repulsion_force
+        self.wall_force = np.array([0.0, 0.0])
+        self.total_force = self.driving_force + self.repulsion_force + self.wall_force
 
         self.a = self.a_min + self.tau * np.linalg.norm(self.velocity)
         self.b = self.f * self.b_min - ((self.f-1) * self.b_min * np.linalg.norm(self.velocity) / self.desired_walking_speed)
@@ -38,13 +39,14 @@ class Agent:
         self.testing = False
 
     def move(self, dt):
-        self.total_force = self.driving_force + self.repulsion_force
+        self.total_force = self.driving_force + self.repulsion_force + self.wall_force
         # print(self.repulsion_force)
         # print(self.driving_force)
         # print(self.total_force)
         # print(f'total_force:{self.total_force}')
         # print(f'driving_force:{self.driving_force}')
         # print(f'repulsion force:{self.repulsion_force}')
+        # print(f'wall_force:{self.wall_force}')
         acceleration = self.total_force / self.mass
         self.velocity += acceleration * dt
         # Update the agent's position based on its velocity
@@ -61,6 +63,9 @@ class Agent:
         
     def reset(self):
         self.repulsion_force = np.array([0.0, 0.0])
+        
+    def reset_wall(self):
+        self.wall_force = np.array([0.0, 0.0])
         
     def add_force(self):
         self.total_force = self.repulsion_force + self.driving_force

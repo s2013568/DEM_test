@@ -39,7 +39,7 @@ class GCFModel:
         self.current_step += 1
         agents_to_remove = []
         flipped = False
-        # print(self.current_step)
+        print(self.current_step)
         for agent in reversed(self.agents):
             agent.move(dt)  # Move the agent based on the updated velocity
             

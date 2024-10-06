@@ -125,7 +125,9 @@ class Force:
                         #     print(relative_velocity)
                         if d < reps:
                             l_hat = misc.calculate_closest_distance(self.agents[i], self.agents[j])
-                            Frep = (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / reps)
+                            Frep = (self.agents[i].mass * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / reps)
+                            # print(f'Frep{Frep}')
+                            # print(f'l_hat{l_hat}')
                             self.agents[i].repulsion_force -= (((-2 * Frep) / (reps - l_hat)) * d + 3*Frep) * separation_unit_vector
                         elif d > rc:
                             self.agents[i].repulsion_force += 0
@@ -137,9 +139,11 @@ class Force:
                         else:
                             self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / d) * separation_unit_vector  
                         
+                        
+                        
     def calculate_wall_force(self, ellipse = True, eta_alt = 5):
         for agent in self.agents:
-            agent.reset()
+            agent.reset_wall()
             wall_to_interact = 0
             D_mag = 999
             D = np.array([0, 0])
@@ -215,5 +219,4 @@ class Force:
             f = eta_alt * agent.desired_walking_speed * reduced_vision_factor * biw * misc.normalize(P - agent.position)
             # print(f'wall force: {f}')
             
-            agent.repulsion_force -= f
-            agent.add_force()
+            agent.wall_force -= f
