@@ -24,6 +24,17 @@ class Force:
                 pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
             agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity) 
 
+    def strat_2(self, point1 = (23.6, 2), point2 = (27, 2)):
+        point1 = np.array(point1)
+        point2 = np.array(point2)
+        for agent in self.agents:
+            agent_pos = agent.position
+            if agent_pos[0] < 23.6:
+                pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
+            else:
+                pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
+            agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity) 
+
     def point_direction_method(self, line_points=((30, 0), (30, 20))):
         # Define the two points of the line
         point1 = np.array(line_points[0])
