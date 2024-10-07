@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cl",
+            "args": [
+                "/EHsc", 
+                "/Fe:CrowdSimulation.exe",
+                "main.cpp", "Agent.cpp", "Environment.cpp", "Force.cpp", "GCFModel.cpp", "Misc.cpp"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task by cl"
+        }
+    ]
+}

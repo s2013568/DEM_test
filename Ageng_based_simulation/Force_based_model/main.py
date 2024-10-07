@@ -29,8 +29,8 @@ class GCFModel:
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
         # self.force.point_direction_method(line_points=((50, 0), (50, 3)))
-        self.force.strat_1()
-        # self.force.strat_2()
+        # self.force.strat_1()
+        self.force.strat_2()
         self.force.calculate_repulsive_forces(eta = self.eta)
         self.force.calculate_wall_force()
 
@@ -40,7 +40,7 @@ class GCFModel:
         self.current_step += 1
         agents_to_remove = []
         flipped = False
-        print(self.current_step)
+        # print(self.current_step)
         for agent in reversed(self.agents):
             agent.move(dt)  # Move the agent based on the updated velocity
             
@@ -195,6 +195,11 @@ class GCFModel:
             if self.agent_count_passed >= 50:
                 self.recorded_step_of_passing.append(self.current_step)
                 break
+            if np.isnan(self.agents[0].velocity).any():
+                print("Debug: The velocity of the first agent is NaN:", self.agents[0].velocity)
+                print(f'occured at {self.current_step}')
+                self.recorded_step_of_passing.append(-1)
+                break
 
             # Log the state of the simulation at regular intervals
             if step % log_interval == 0:
@@ -203,6 +208,7 @@ class GCFModel:
                     agent = self.agents[0]
                     print(f"  Agent {0}: Position: {agent.position}, Velocity: {agent.velocity}, Force: {agent.total_force}")
                     print(f" Test_agent: {agent.test}, agent_testing: {agent.testing}, agent_tested: {agent.tested}")
+                    print(f" passed {self.agent_count_passed}")
 
             # Debug: If something specific is wrong, you could add more checks or logging here
 

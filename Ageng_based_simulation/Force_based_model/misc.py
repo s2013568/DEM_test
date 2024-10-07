@@ -21,7 +21,9 @@ def apply_periodic_distance(agent_i_pos, agent_j_pos, env):
     return np.array([dx, dy])
 
 def closest_distance_between_ellipses(agent1, agent2, env):
-    separation_unit_vector = normalize(apply_periodic_distance(agent1.position, agent2.position, env))
+    # separation_unit_vector = normalize(apply_periodic_distance(agent1.position, agent2.position, env))
+    separation_unit_vector = normalize(agent2.position - agent1.position)
+
     velocity_unit_vector1 = normalize(agent1.velocity)
     velocity_unit_vector2 = normalize(agent2.velocity)
     angle1 = np.arccos(np.dot(velocity_unit_vector1, separation_unit_vector))
