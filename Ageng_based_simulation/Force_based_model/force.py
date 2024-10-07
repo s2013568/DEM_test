@@ -24,16 +24,41 @@ class Force:
                 pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
             agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity) 
 
-    def strat_2(self, point1 = (23.6, 2), point2 = (27, 2)):
+    def strat_2(self, point1 = (23.6, 2)):
+
+        def point_position_relative_to_line(x1, y1, x2, y2, x3, y3):
+            # Compute the cross product
+            cross_product = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
+
+            # Determine the position of the point relative to the line
+            if cross_product > 0:
+                return 1
+            elif cross_product < 0:
+                return -1
+            else:
+                return 0
         point1 = np.array(point1)
-        point2 = np.array(point2)
         for agent in self.agents:
             agent_pos = agent.position
-            if agent_pos[0] < 23.6:
-                pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
+            point2 = np.array((agent_pos[0] + 10., agent_pos[1]))
+            if agent_pos[1] >= self.environment.height / 2:
+                coefficient = point_position_relative_to_line(agent_pos[0], agent_pos[1], point2[0], point2[1], self.environment.bottleneck.get('x_min'), self.environment.bottleneck.get('y_max'))
+                print(f'Top, coefficient {coefficient}')
+                if coefficient >= 0:
+                    pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
+                else:
+                    pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
+
             else:
-                pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
+                coefficient = point_position_relative_to_line(agent_pos[0], agent_pos[1], point2[0], point2[1], self.environment.bottleneck.get('x_min'), self.environment.bottleneck.get('y_min'))
+                print(f'Bot, coefficient {coefficient}')
+                if coefficient <= 0:
+                    pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
+                else:
+                    pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
+
             agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity) 
+
 
     def point_direction_method(self, line_points=((30, 0), (30, 20))):
         # Define the two points of the line

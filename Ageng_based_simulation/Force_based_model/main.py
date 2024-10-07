@@ -30,6 +30,7 @@ class GCFModel:
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
         # self.force.point_direction_method(line_points=((50, 0), (50, 3)))
         self.force.strat_1()
+        # self.force.strat_2()
         self.force.calculate_repulsive_forces(eta = self.eta)
         self.force.calculate_wall_force()
 
