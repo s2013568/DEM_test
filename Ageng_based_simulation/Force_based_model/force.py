@@ -41,21 +41,24 @@ class Force:
         for agent in self.agents:
             agent_pos = agent.position
             point2 = np.array((agent_pos[0] + 10., agent_pos[1]))
-            if agent_pos[1] >= self.environment.height / 2:
-                coefficient = point_position_relative_to_line(agent_pos[0], agent_pos[1], point2[0], point2[1], self.environment.bottleneck.get('x_min'), self.environment.bottleneck.get('y_max'))
-                #print(f'Top, coefficient {coefficient}')
-                if coefficient >= 0:
-                    pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
-                else:
-                    pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
+            if agent_pos[0] < 23.6:
+                if agent_pos[1] >= self.environment.height / 2:
+                    coefficient = point_position_relative_to_line(agent_pos[0], agent_pos[1], point2[0], point2[1], self.environment.bottleneck.get('x_min'), self.environment.bottleneck.get('y_max'))
+                    #print(f'Top, coefficient {coefficient}')
+                    if coefficient >= 0:
+                        pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
+                    else:
+                        pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
 
-            else:
-                coefficient = point_position_relative_to_line(agent_pos[0], agent_pos[1], point2[0], point2[1], self.environment.bottleneck.get('x_min'), self.environment.bottleneck.get('y_min'))
-                #print(f'Bot, coefficient {coefficient}')
-                if coefficient <= 0:
-                    pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
                 else:
-                    pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
+                    coefficient = point_position_relative_to_line(agent_pos[0], agent_pos[1], point2[0], point2[1], self.environment.bottleneck.get('x_min'), self.environment.bottleneck.get('y_min'))
+                    #print(f'Bot, coefficient {coefficient}')
+                    if coefficient <= 0:
+                        pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
+                    else:
+                        pointing_vector = misc.normalize(point1 - agent_pos) * agent.desired_walking_speed
+            else:
+                pointing_vector = misc.normalize(point2 - agent_pos) * agent.desired_walking_speed
 
             agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity) 
 
