@@ -62,6 +62,53 @@ class Force:
 
             agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity) 
 
+    def strat_3(self):
+        x1, y1 = self.environment.bottleneck.get('x_min') - 0.2, self.environment.bottleneck.get('y_min') + 0.2
+        x2, y2 = self.environment.bottleneck.get('x_min') - 0.2, self.environment.bottleneck.get('y_max') - 0.2
+        x3, y3 = self.environment.bottleneck.get('x_max') + 0.2, self.environment.bottleneck.get('y_min') + 0.2
+        x4, y4 = self.environment.bottleneck.get('x_max') + 0.2, self.environment.bottleneck.get('y_max') - 0.2
+
+        def closest_point_on_line(agent_position, line_start, line_end):
+            # Unpack the coordinates
+            px, py = agent_position
+            x1, y1 = line_start
+            x2, y2 = line_end
+            
+            # Vector AB
+            line_vec = np.array([x2 - x1, y2 - y1])
+            # Vector AP
+            point_vec = np.array([px - x1, py - y1])
+            
+            # Project point vector onto line vector
+            line_length_squared = np.dot(line_vec, line_vec)
+            if line_length_squared == 0:  # The line segment is a point
+                return np.array([x1, y1])  # Closest point is one of the endpoints
+
+            projection = np.dot(point_vec, line_vec) / line_length_squared
+            
+            # Clamping projection to the line segment
+            projection = max(0, min(1, projection))
+            
+            # Closest point on the line segment
+            closest_point = np.array([x1, y1]) + projection * line_vec
+            return closest_point
+
+        def shortest_distance_vector(agent_position, line_start, line_end):
+            closest_point = closest_point_on_line(agent_position, line_start, line_end)
+            # Calculate the distance vector
+            distance_vector = closest_point - np.array(agent_position)
+            return distance_vector
+        
+        for agent in self.agents:
+            # Get the agent's position
+            agent_pos = agent.position
+            if agent_pos[0] < x1:
+                distance_vector = shortest_distance_vector(agent_pos, (x1, y1), (x2, y2))
+            else:
+                distance_vector = shortest_distance_vector(agent_pos, (x3, y3), (x4, y4))
+
+            pointing_vector = misc.normalize(distance_vector) * agent.desired_walking_speed
+            agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity)
 
     def point_direction_method(self, line_points=((30, 0), (30, 20))):
         # Define the two points of the line
