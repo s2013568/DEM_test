@@ -80,44 +80,119 @@ def contact_distance_between_two_ellipse(agent1, agent2):
     
 def calculate_closest_distance(agent1, agent2):
     """
-    Calculate the closest distance between two ellipses with semi-major axes a1, a2,
-    semi-minor axes b1, b2, and orientation vectors k1, k2.
+    Calculate the closest distance between two ellipses in 2D space.
 
     Parameters:
-        a1, b1: Semi-major and semi-minor axes of ellipse 1.
-        a2, b2: Semi-major and semi-minor axes of ellipse 2.
-        k1, k2: Orientation unit vectors for ellipses 1 and 2.
-
+        agent1, agent2: Two objects representing the ellipses, each having the following attributes:
+            - a: Semi-major axis of the ellipse.
+            - b: Semi-minor axis of the ellipse.
+            - velocity: A vector representing the orientation of the ellipse (this gives the direction of the semi-major axis).
+            - position: A vector representing the center of the ellipse.
+    
     Returns:
         The closest distance between the centers of the two ellipses.
     """
+
+    # Step 1: Extract ellipse parameters
     a1, b1 = agent1.a, agent1.b
     a2, b2 = agent2.a, agent2.b
-    k1, k2 = normalize(agent1.velocity), normalize(agent2.velocity)
-    
-    # Step 1: Transformation matrix T to transform E1 into a unit circle
-    e1 = np.sqrt(1 - (b1**2 / a1**2))
-    e2 = np.sqrt(1 - (b2**2 / a2**2))
-    
-    # Equation (4): T is a transformation matrix that scales the ellipse
+    k1 = normalize(agent1.velocity)  # Orientation of ellipse 1
+    k2 = normalize(agent2.velocity)  # Orientation of ellipse 2
+    position_diff = agent2.position - agent1.position  # Vector joining the centers of the ellipses
+
+    # Step 2: Define the transformation matrix to transform ellipse 1 into a unit circle
     def transformation_matrix(a, b, k):
         I = np.identity(2)
-        k_k = np.outer(k, k)
-        T = (1 / b) * (I + (b/a - 1) * k_k)
+        k_k = np.outer(k, k)  # Outer product of the direction vector
+        T = (1 / b) * (I + (b/a - 1) * k_k)  # Transformation matrix
         return T
-    
+
+    # Transform the first ellipse into a unit circle
     T1 = transformation_matrix(a1, b1, k1)
+
+    # Step 3: Transform the second ellipse using the same transformation matrix
+    # Ellipse matrix (representing the shape of the ellipse in quadratic form)
+    def ellipse_matrix(a, b, k):
+        I = np.identity(2)
+        k_k = np.outer(k, k)
+        return (1 / b**2) * (I + (b**2 / a**2 - 1) * k_k)
+
+    A2 = ellipse_matrix(a2, b2, k2)  # Shape matrix for ellipse 2
+    A2_transformed = np.dot(np.dot(np.linalg.inv(T1), A2), np.linalg.inv(T1))  # Transforming ellipse 2
+
+    # Step 4: Calculate the quartic equation to solve for the distance in the transformed space
+    # For simplicity, using the transformed semi-major and semi-minor axes
+    eigenvalues, _ = np.linalg.eig(A2_transformed)  # Eigenvalues of the transformed matrix
+    a2_prime = 1 / np.sqrt(np.min(eigenvalues))  # Transformed semi-major axis
+    b2_prime = 1 / np.sqrt(np.max(eigenvalues))  # Transformed semi-minor axis
     
-    # Step 2: Transform the second ellipse
-    d_hat = np.dot(T1, k2) / np.linalg.norm(np.dot(T1, k2))
+    # The distance between the unit circle and the transformed ellipse can be computed analytically:
+    def transformed_distance(a_prime, b_prime):
+        # Approximation of the closest distance in transformed space
+        return 1 + a_prime  # Special case from the paper, for external tangency
     
-    # Step 3: Apply transformed distances (Equation 36)
-    def distance_transformed(a2, b2, e1, d_hat):
-        return (1 / b1) * (1 / np.sqrt(1 - e1**2 * (np.dot(d_hat, k1))**2))
+    d_prime = transformed_distance(a2_prime, b2_prime)
+
+    # Step 5: Apply inverse transformation to get the real-world distance
+    # Calculate the angle between the major axis of ellipse 1 and the vector joining the centers
+    angle_between = np.dot(k1, position_diff / np.linalg.norm(position_diff))
+    eccentricity1 = np.sqrt(1 - (b1**2 / a1**2))  # Eccentricity of ellipse 1
     
-    d_transformed = distance_transformed(a2, b2, e1, d_hat)
-    
-    # Inverse transformation to get the actual distance (Equation 35)
-    distance = d_transformed / np.linalg.norm(T1)
+    # Apply inverse transformation to find the real-world distance
+    distance = d_prime / np.sqrt(1 - eccentricity1**2 * angle_between**2)
     
     return distance
+    
+    
+# def calculate_closest_distance(agent1, agent2):
+#     """
+#     Calculate the closest distance between two ellipses with semi-major axes a1, a2,
+#     semi-minor axes b1, b2, and orientation vectors k1, k2.
+
+#     Parameters:
+#         a1, b1: Semi-major and semi-minor axes of ellipse 1.
+#         a2, b2: Semi-major and semi-minor axes of ellipse 2.
+#         k1, k2: Orientation unit vectors for ellipses 1 and 2.
+
+#     Returns:
+#         The closest distance between the centers of the two ellipses.
+#     """
+#     a1, b1 = agent1.a, agent1.b
+#     a2, b2 = agent2.a, agent2.b
+#     k1, k2 = normalize(agent1.velocity), normalize(agent2.velocity)
+    
+#     # Step 1: Transformation matrix T to transform E1 into a unit circle
+#     e1 = np.sqrt(1 - (b1**2 / a1**2))
+#     e2 = np.sqrt(1 - (b2**2 / a2**2))
+    
+#     # Equation (4): T is a transformation matrix that scales the ellipse
+#     def transformation_matrix(a, b, k):
+#         I = np.identity(2)
+#         k_k = np.outer(k, k)
+#         T = (1 / b) * (I + (b/a - 1) * k_k)
+#         return T
+    
+#     T1 = transformation_matrix(a1, b1, k1)
+    
+#     epsilon = 1e-10  # A small number to prevent division by zero
+
+#     # Step 2: Transform the second ellipse
+#     dot_product = np.dot(T1, k2)
+#     norm_dot_product = np.linalg.norm(dot_product)
+
+#     # Add epsilon to avoid division by zero
+#     if norm_dot_product < epsilon:
+#         norm_dot_product = epsilon
+
+#     d_hat = dot_product / norm_dot_product
+    
+#     # Step 3: Apply transformed distances (Equation 36)
+#     def distance_transformed(a2, b2, e1, d_hat):
+#         return (1 / b1) * (1 / np.sqrt(1 - (e1**2) * (np.dot(d_hat, k1))**2))
+    
+#     d_transformed = distance_transformed(a2, b2, e1, d_hat)
+    
+#     # Inverse transformation to get the actual distance (Equation 35)
+#     distance = d_transformed / np.linalg.norm(T1)
+    
+#     return distance

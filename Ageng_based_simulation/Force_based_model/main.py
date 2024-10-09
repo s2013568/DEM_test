@@ -28,12 +28,13 @@ class GCFModel:
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
-        # self.force.point_direction_method(line_points=((50, 0), (50, 3)))
+        self.force.point_direction_method(line_points=((50, 0), (50, 3)))
         # self.force.strat_1()
         # self.force.strat_2()
-        self.force.strat_3()
-        self.force.calculate_repulsive_forces(eta = self.eta)
-        self.force.calculate_wall_force()
+        # self.force.strat_3()
+        # self.force.calculate_repulsive_forces(eta = self.eta)
+        self.force.calculate_repulsive_forces_1D(eta = self.eta)
+        # self.force.calculate_wall_force()
 
     def update(self, dt):
         """ Update the state of the model by one time step """
@@ -47,20 +48,20 @@ class GCFModel:
             
             
             # Check if the agent hits a wall, and reverse velocity if needed
-            if not self.environment.is_within_walls(agent):
-                agent.velocity *= -1  # Bounce off the walls for simplicity
+            # if not self.environment.is_within_walls(agent):
+            #     agent.velocity *= -1  # Bounce off the walls for simplicity
                 
             if self.environment.periodic:
                 flipped = self.environment.apply_periodic_boundary(agent)
                 if agent.test:
-                    if self.current_step > 10000 and flipped and not agent.tested and not agent.testing:
+                    if self.current_step > 20000 and flipped and not agent.tested and not agent.testing:
                         agent.testing = True
-                    elif self.current_step > 10000 and flipped and agent.testing:
+                    elif self.current_step > 20000 and flipped and agent.testing:
                         agent.testing = False
                         agent.tested = True
-            if agent.position[0] >= 26.4:
-                agents_to_remove.append(agent)
-                self.agent_count_passed += 1
+            # if agent.position[0] >= 26.4:
+            #     agents_to_remove.append(agent)
+            #     self.agent_count_passed += 1
                 
                 
             if agent.test:
@@ -162,7 +163,7 @@ class GCFModel:
             return agent_circles + ([forces] if show_forces else [])
 
         # Set up the animation
-        anim = FuncAnimation(fig, update_animation, frames=steps,
+        anim = FuncAnimation(fig, update_animation, frames=steps // 2,
                             init_func=init, blit=True, interval=interval)
 
         # Save the animation as a GIF at 10 frames per second
@@ -193,6 +194,9 @@ class GCFModel:
         for step in range(steps):
             # Update the positions and forces of agents
             self.update(dt)
+            if self.agents[0].tested and not self.agents[0].testing:
+                break
+            
             if self.agent_count_passed >= 50:
                 self.recorded_step_of_passing.append(self.current_step)
                 break
