@@ -143,7 +143,14 @@ class Force:
                 pointing_vector = misc.normalize(nearest_point_on_line - agent_pos) * agent.desired_walking_speed
             
             # Compute the driving force
-            agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity)           
+            agent.driving_force = agent.mass * (1 / self.time_constant) * (pointing_vector - agent.velocity)   
+            
+    def direction_1D_method(self):
+        for agent in self.agents:
+            current_velocity = np.linalg.norm(agent.velocity)
+            
+            # Compute the driving force
+            agent.driving_force = agent.mass * (1 / self.time_constant) * (agent.desired_walking_speed - current_velocity)  * np.array([1, 0])
             
             
             
@@ -186,8 +193,11 @@ class Force:
                     separation = np.linalg.norm(separation_vector)
                     separation_unit_vector = separation_vector / separation
                     relative_velocity = (1 / 2) * (np.dot((self.agents[i].velocity - self.agents[j].velocity), separation_unit_vector) + abs(np.dot((self.agents[i].velocity - self.agents[j].velocity), separation_unit_vector)))
+                    
                     d = separation - self.agents[i].a - self.agents[j].a
-
+                    # if self.agents[i].test:
+                    print(f'relative_velocity: {relative_velocity}')
+                    #     print(d)
 
                     if np.linalg.norm(self.agents[i].velocity) != 0:
                         reduced_vision_factor = (np.dot(self.agents[i].velocity, separation_unit_vector) + abs(np.dot(self.agents[i].velocity, separation_unit_vector))) / (2 * np.linalg.norm(self.agents[i].velocity))
@@ -210,13 +220,18 @@ class Force:
                         repulsion_factor = 3 - (2 * (d / reps))
                         
                         # Calculate the repulsion force
-                        self.agents[i].repulsion_force -= (repulsion_factor * Frep) * separation_unit_vector
+                        if d >= 0:
+                            self.agents[i].repulsion_force -= reduced_vision_factor * (repulsion_factor * Frep) * separation_unit_vector
+                        else:
+                            self.agents[i].repulsion_force -= reduced_vision_factor * (3 * Frep) * separation_unit_vector
+                            # print(f'd < 0 {(3 * Frep) * separation_unit_vector}')
+                            
 
                         # print((repulsion_factor * Frep) * separation_unit_vector)
 
                     elif d > rc - reps and d < rc:
                         Fc = (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / (rc - reps))
-                        self.agents[i].repulsion_force -= ((Fc) / (rc - reps)) * (d - rc + reps) * separation_unit_vector
+                        self.agents[i].repulsion_force -= ((-Fc / (reps)) * (d - rc + reps) + Fc)* separation_unit_vector
 
                     else:
                         self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / d) * separation_unit_vector

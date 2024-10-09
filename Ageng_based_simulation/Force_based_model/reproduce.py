@@ -11,7 +11,7 @@ def create_agents(num_agents, canvas_width=26.0):
     agents = []
 
     # Calculate spacing between agents
-    space_between_agents = (canvas_width - 0.36) / (num_agents)
+    space_between_agents = (canvas_width) / (num_agents)
 
     current_x_position = 0.18
     for i in range(num_agents):
@@ -30,13 +30,13 @@ def create_agents(num_agents, canvas_width=26.0):
 
 
 # Function to run a single simulation and log the test agent's velocity and density
-def run_single_simulation(num_agents, steps=5000, dt=0.01, log_interval=1000):
+def run_single_simulation(num_agents, steps=5000, dt=0.1, log_interval=1000):
     env = Environment(width=26, height=3, bottleneck_width=0, bottleneck_height=0, periodic=True)
     agents = create_agents(num_agents)
     
-    gcf_model = GCFModel(environment=env, agents=agents, time_constant=1.5, eta=0.2)
-    gcf_model.run_simulation(steps=steps, dt=dt, log_interval=log_interval)
-    # gcf_model.animate(100, dt=0.01, interval=100, output_filename="crowd_simulation_test.gif", show_forces=True)
+    gcf_model = GCFModel(environment=env, agents=agents, time_constant=0.5, eta=0.2)
+    # gcf_model.run_simulation(steps=steps, dt=dt, log_interval=log_interval)
+    gcf_model.animate(1, dt=0.1, interval=100, output_filename="crowd_simulation_test.gif", show_forces=True)
     
     print(agents[0].memory)
     # print(env.ins_density)
@@ -48,7 +48,7 @@ def run_single_simulation(num_agents, steps=5000, dt=0.01, log_interval=1000):
     return v, density
 
 # Main function to run multiple simulations with varying number of agents
-def run_multiple_simulations(agent_counts, steps=50001, dt=0.01, log_interval=5000):
+def run_multiple_simulations(agent_counts, steps=100001, dt=0.1, log_interval=1000):
     results = []
     
     for num_agents in agent_counts:
@@ -69,8 +69,7 @@ def write_results_to_csv(filename, results):
         writer.writerows(results)
 
 # Define the number of agents to test (start with 10 agents and increase)
-agent_counts = [70,
- 65,
+agent_counts = [65,
  60,
  55,
  50,
@@ -114,6 +113,7 @@ agent_counts = [70,
  4,
  3,
  2]
+agent_counts = [70]
 
 # Run the simulations
 results = run_multiple_simulations(agent_counts)

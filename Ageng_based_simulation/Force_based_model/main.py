@@ -28,7 +28,8 @@ class GCFModel:
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
-        self.force.point_direction_method(line_points=((50, 0), (50, 3)))
+        # self.force.point_direction_method(line_points=((50, 0), (50, 3)))
+        self.force.direction_1D_method()
         # self.force.strat_1()
         # self.force.strat_2()
         # self.force.strat_3()
@@ -54,9 +55,9 @@ class GCFModel:
             if self.environment.periodic:
                 flipped = self.environment.apply_periodic_boundary(agent)
                 if agent.test:
-                    if self.current_step > 20000 and flipped and not agent.tested and not agent.testing:
+                    if self.current_step > 5000 and flipped and not agent.tested and not agent.testing:
                         agent.testing = True
-                    elif self.current_step > 20000 and flipped and agent.testing:
+                    elif self.current_step > 5000 and flipped and agent.testing:
                         agent.testing = False
                         agent.tested = True
             # if agent.position[0] >= 26.4:
@@ -163,11 +164,11 @@ class GCFModel:
             return agent_circles + ([forces] if show_forces else [])
 
         # Set up the animation
-        anim = FuncAnimation(fig, update_animation, frames=steps // 2,
+        anim = FuncAnimation(fig, update_animation, frames=steps,
                             init_func=init, blit=True, interval=interval)
 
         # Save the animation as a GIF at 10 frames per second
-        anim.save(output_filename, writer='pillow', fps=50000000)
+        anim.save(output_filename, writer='pillow', fps=10)
         # anim.save(output_filename, writer='ffmpeg', fps=10000, codec='libx264')
 
         # writer = FFMpegWriter(fps=100)
@@ -194,6 +195,7 @@ class GCFModel:
         for step in range(steps):
             # Update the positions and forces of agents
             self.update(dt)
+            # print(self.agents[0].position)
             if self.agents[0].tested and not self.agents[0].testing:
                 break
             
