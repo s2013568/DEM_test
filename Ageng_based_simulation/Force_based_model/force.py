@@ -163,6 +163,7 @@ class Force:
         tau = 1.0
         reps = 0.1
         rc = 2
+        catastrophy = False
         
         def apply_periodic_distance(agent_i_pos, agent_j_pos):
                 """Calculate minimum separation between two agents with periodic boundaries."""
@@ -196,7 +197,7 @@ class Force:
                     
                     d = separation - self.agents[i].a - self.agents[j].a
                     # if self.agents[i].test:
-                    print(f'relative_velocity: {relative_velocity}')
+                    # print(f'relative_velocity: {relative_velocity}')
                     #     print(d)
 
                     if np.linalg.norm(self.agents[i].velocity) != 0:
@@ -236,7 +237,15 @@ class Force:
                     else:
                         self.agents[i].repulsion_force += - (self.agents[i].mass * reduced_vision_factor * ((eta * self.agents[i].desired_walking_speed + relative_velocity) ** 2) / d) * separation_unit_vector
                         # print(self.agents[i].repulsion_force)
+                    
+            if abs(np.linalg.norm(self.agents[i].repulsion_force)) > 10:
+                print('catastrophy')
+                return True
+
+            
+        return False
                         
+                          
                         
                         
     def calculate_repulsive_forces(self, ellipse = True, eta = 0.2):
@@ -246,6 +255,7 @@ class Force:
         
         def apply_periodic_distance(agent_i_pos, agent_j_pos):
                 """Calculate minimum separation between two agents with periodic boundaries."""
+                
                 dx = agent_j_pos[0] - agent_i_pos[0]
                 dy = agent_j_pos[1] - agent_i_pos[1]
 

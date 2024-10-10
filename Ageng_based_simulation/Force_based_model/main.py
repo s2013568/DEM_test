@@ -25,6 +25,7 @@ class GCFModel:
         self.agent_count_passed = 0
         
         self.recorded_step_of_passing = []
+        self.catastrophy = False
 
     def calculate_forces(self):
         self.force = Force(self.agents, self.environment, time_constant = self.time_constant)
@@ -34,7 +35,8 @@ class GCFModel:
         # self.force.strat_2()
         # self.force.strat_3()
         # self.force.calculate_repulsive_forces(eta = self.eta)
-        self.force.calculate_repulsive_forces_1D(eta = self.eta)
+        self.catastrophy = self.force.calculate_repulsive_forces_1D(eta = self.eta)
+        # print(self.catastrophy)
         # self.force.calculate_wall_force()
 
     def update(self, dt):
@@ -44,7 +46,8 @@ class GCFModel:
         agents_to_remove = []
         flipped = False
         # print(self.current_step)
-        for agent in reversed(self.agents):
+        
+        for agent in self.agents:
             agent.move(dt)  # Move the agent based on the updated velocity
             
             
@@ -55,9 +58,9 @@ class GCFModel:
             if self.environment.periodic:
                 flipped = self.environment.apply_periodic_boundary(agent)
                 if agent.test:
-                    if self.current_step > 5000 and flipped and not agent.tested and not agent.testing:
+                    if self.current_step > 0 and flipped and not agent.tested and not agent.testing:
                         agent.testing = True
-                    elif self.current_step > 5000 and flipped and agent.testing:
+                    elif self.current_step > 0 and flipped and agent.testing:
                         agent.testing = False
                         agent.tested = True
             # if agent.position[0] >= 26.4:
@@ -195,6 +198,9 @@ class GCFModel:
         for step in range(steps):
             # Update the positions and forces of agents
             self.update(dt)
+            if self.catastrophy == True:
+                print(f'Catastrophy happened at {self.current_step}')
+                break
             # print(self.agents[0].position)
             if self.agents[0].tested and not self.agents[0].testing:
                 break
