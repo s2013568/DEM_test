@@ -4,11 +4,13 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.animation import FuncAnimation
 from matplotlib.animation import FFMpegWriter
+import csv
 
 class Force_Model:
-    def __init__(self, environment, agents, parameters = (0.2, 1, 1, 1),tau = 0.5,  x_min = 0, x_max = 26):
+    def __init__(self, environment, agents, parameters = (0.2, 1, 1, 1) ,tau = 0.5,  x_min = 0, x_max = 26):
         self.environment = environment
         self.agents = agents
+        self.parameters = parameters
         self.mu = parameters[0]
         self.sigma = parameters[1]
         self.q = parameters[2]
@@ -22,16 +24,16 @@ class Force_Model:
         self.x_max = x_max
 
 
-    def heun_scheme(self):
+    def heun_scheme(self, dt):
         for i in range(len(self.agents)):
             if i == len(self.agents) - 1:
                 j = 0
             else:
                 j = i + 1
             self.force.algebraically_decaying_repulsive(i, j, stage2=False)
-            self.agents[i].pseudo_move()
+            self.agents[i].pseudo_move(dt)
             self.force.algebraically_decaying_repulsive(i, j, stage2=True)
-            self.agents[i].move()
+            self.agents[i].move(dt)
             
         
     
@@ -41,106 +43,135 @@ class Force_Model:
         self.current_step += 1
         flipped = False
         # print(self.current_step)
+        if self.current_step // 10000 == 0:
+            velocities = np.array([agent.velocity_dash for agent in self.agents])
+            velocity_std = np.std(velocities)
+            if velocity_std > 5:
+                return False
+            
+            # Append the standard deviation to a CSV file
+            with open(r'C:\\Users\\Peter\\OneDrive - University of Edinburgh\\Desktop\\velocity_std.csv', mode='a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([self.current_step, velocity_std, self.parameters])
+                    
+        self.heun_scheme(dt)
         
-        self.heun_scheme()
+        return True
+        
+
         
         # for agent in self.agents:
         #     agent.move(dt)  # Move the agent based on the updated velocity
 
 
 
-    def animate(self, steps, dt=0.1, interval=100, output_filename="crowd_simulation.gif", show_forces=False):
+    def animate(self, steps, dt=0.1, interval=100, output_filename="crowd_simulation.gif", show_forces=False, save_interval=100):
         """ Create an animation of the system over a given number of steps and save it as a GIF """
         fig, ax = plt.subplots()
         ax.set_xlim(0, self.environment.width)
-        ax.set_ylim(0, self.environment.height)
+        ax.set_ylim(0, 2)  # Static y-limit for 1D visualization
         ax.set_aspect('equal')
 
         # Draw the walls and bottleneck
-        for wall in self.environment.walls:
-            ax.plot(wall['x_range'], wall['y_range'], 'k-', lw=2)  # 'k-' means black solid line
+        try:
+            for wall in self.environment.walls:
+                ax.plot(wall['x_range'], [0, 0], 'k-', lw=2)  # Plot walls along y=1.0 for 1D
+        except Exception as e:
+            print(f"Error plotting walls: {e}")
+            return
 
-        # Initialize agent positions as unfilled circles
-        # agent_circles = [plt.Circle(agent.position, agent.radius, color='b', fill=False, edgecolor='b') for agent in self.agents]
-        agent_circles = [patches.Ellipse((agent.position, 2), 2*agent.a, 2*agent.b,0, color='b', fill=False, edgecolor='b') for agent in self.agents]
-        for circle in agent_circles:
-            ax.add_patch(circle)
-                
+        # Initialize agent positions as unfilled circles (in 2D, but agents only move along x)
+        try:
+            agent_circles = [
+                patches.Ellipse((agent.position, 1.0), 2*agent.a, 0.2, angle=0, color='b', fill=False, edgecolor='b')
+                for agent in self.agents
+            ]
+            for circle in agent_circles:
+                ax.add_patch(circle)
+        except Exception as e:
+            print(f"Error initializing agent circles: {e}")
+            return
+
         forces = None
 
         # Create placeholders for force vectors if show_forces is True
         if show_forces:
-            forces = ax.quiver(
-                [agent.position for agent in self.agents],  # X positions
-                [2 for agent in self.agents],  # Y positions
-                [agent.total_force for agent in self.agents],  # Force in X direction
-                [0 for agent in self.agents],  # Force in Y direction
-                angles='xy', scale_units='xy', scale=1, color='r', width=0.003)
+            try:
+                forces = ax.quiver(
+                    [agent.position for agent in self.agents],  # X positions
+                    [1.0 for _ in self.agents],  # Static Y position (1.0)
+                    [agent.total_force for agent in self.agents],  # Force in X direction
+                    [0 for _ in self.agents],  # No force in Y direction (1D sim)
+                    angles='xy', scale_units='xy', scale=1, color='r', width=0.003
+                )
+            except Exception as e:
+                print(f"Error initializing forces: {e}")
+                return
 
         def init():
             """ Initialize the positions of agents """
-            for agent, circle in zip(self.agents, agent_circles):
-                circle.center = agent.position
-            if show_forces:
-                return agent_circles + ([forces] if forces else [])
-            return agent_circles
+            try:
+                for agent, circle in zip(self.agents, agent_circles):
+                    circle.center = (agent.position, 1.0)  # Set y=1.0 for display
+            except Exception as e:
+                print(f"Error during initialization: {e}")
+            return agent_circles + ([forces] if forces else [])
 
         def update_animation(frame):
             """ Update the positions of agents for the animation """
             nonlocal forces
-            self.update(dt)
+            try:
+                self.update(dt)  # Update agent positions based on the model's time step
 
-            # Remove agent circles if agents were removed and rebuild list
-            # new_agent_circles = [plt.Circle(agent.position, agent.radius, color='b', fill=False, edgecolor='b') for agent in self.agents]
-            new_agent_circles = [patches.Ellipse(agent.position, 2*agent.a, 2*agent.b, angle=0, color='b', fill=False, edgecolor='b') for agent in self.agents]
-            
-            # Remove old circles
-            while len(agent_circles) > len(self.agents):
-                old_circle = agent_circles.pop()
-                old_circle.remove()  # Remove the circle from the plot
+                # Remove agent circles if agents were removed
+                while len(agent_circles) > len(self.agents):
+                    old_circle = agent_circles.pop()
+                    old_circle.remove()
 
-            # Update existing circles' positions
-            for agent, circle in zip(self.agents, agent_circles):
-                circle.center = agent.position
-                circle.angle = 0
-                circle.width = 2 * agent.a
-                circle.height = 2 * agent.b
+                # Update existing circles' positions
+                for agent, circle in zip(self.agents, agent_circles):
+                    circle.center = (agent.position, 1.0)  # Set y=1.0 for display
+                    circle.width = 2 * agent.a
 
-            # Add new circles if necessary
-            if len(new_agent_circles) > len(agent_circles):
-                for new_circle in new_agent_circles[len(agent_circles):]:
-                    ax.add_patch(new_circle)
-                agent_circles.extend(new_agent_circles[len(agent_circles):])
-
-            # Recreate force vectors if showing forces
-            if show_forces:
-                if forces:
-                    forces.remove()  # Remove old quiver plot
-                # Create new quiver plot to match the current number of agents
-                forces = ax.quiver(
-                    [agent.position for agent in self.agents],  # X positions
-                    [2 for agent in self.agents],  # Y positions
-                    [agent.total_force for agent in self.agents],  # Force in X direction
-                    [0 for agent in self.agents],  # Force in Y direction
-                    angles='xy', scale_units='xy', scale=1, color='r', width=0.003)
+                # Recreate force vectors if showing forces
+                if show_forces:
+                    if forces:
+                        forces.remove()  # Remove old quiver plot
+                    forces = ax.quiver(
+                        [agent.position for agent in self.agents],  # X positions
+                        [1.0 for _ in self.agents],  # Static Y positions (1.0)
+                        [agent.total_force for agent in self.agents],  # Force in X direction
+                        [0 for _ in self.agents],  # No Y direction (1D sim)
+                        angles='xy', scale_units='xy', scale=1, color='r', width=0.003
+                    )
+            except Exception as e:
+                print(f"Error during animation update: {e}")
+                return []
 
             return agent_circles + ([forces] if show_forces else [])
 
+        # Create a list of frames to save (only every `save_interval` frame)
+        save_frames = range(0, steps, save_interval)
+
         # Set up the animation
-        anim = FuncAnimation(fig, update_animation, frames=steps,
-                            init_func=init, blit=True, interval=interval)
+        try:
+            anim = FuncAnimation(
+                fig, update_animation, frames=steps, init_func=init, blit=False, interval=interval
+            )
+        except Exception as e:
+            print(f"Error setting up animation: {e}")
+            return
 
-        # Save the animation as a GIF at 10 frames per second
-        anim.save(output_filename, writer='pillow', fps=10)
-        # anim.save(output_filename, writer='ffmpeg', fps=10000, codec='libx264')
-
-        # writer = FFMpegWriter(fps=100)
-
-        # # Save the animation using FFMpeg writer
-        # anim.save(output_filename, writer=writer)
-        
+        # Save only the selected frames (every `save_interval` frame)
+        try:
+            anim.save(output_filename, writer='pillow', fps=10)
+        except Exception as e:
+            print(f"Error saving animation: {e}")
 
         plt.show()
+
+
+
 
 
 
@@ -157,16 +188,16 @@ class Force_Model:
         """
         for step in range(steps):
             # Update the positions and forces of agents
-            self.update(dt)
-
+            keep_going = self.update(dt)
+            if not keep_going:
+                break
             # Log the state of the simulation at regular intervals
             if step % log_interval == 0:
-                if verbose:
-                    print(f"Step {step}:")
-                    agent = self.agents[0]
-                    print(f"  Agent {0}: Position: {agent.position}, Velocity: {agent.velocity}, Force: {agent.total_force}")
-                    print(f" Test_agent: {agent.test}, agent_testing: {agent.testing}, agent_tested: {agent.tested}")
-                    print(f" passed {self.agent_count_passed}")
+                print(f"Step {step}:")
+                agent = self.agents[0]
+                print(f"  Agent {0}: Position: {agent.position}, Velocity: {agent.velocity}, Force: {agent.total_force}")
+                # print(f" Test_agent: {agent.test}, agent_testing: {agent.testing}, agent_tested: {agent.tested}")
+                # print(f" passed {self.agent_count_passed}")
 
             # Debug: If something specific is wrong, you could add more checks or logging here
 

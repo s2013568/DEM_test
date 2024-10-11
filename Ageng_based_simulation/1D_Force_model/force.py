@@ -24,11 +24,16 @@ class Force:
         
         def apply_periodic_distance(agent_i_pos, agent_j_pos):
                 """Calculate minimum separation between two agents with periodic boundaries."""
+                applied = False
                 dx = agent_j_pos - agent_i_pos
+                # print(agent_j_pos)
+                # print(agent_i_pos)
+                # print(dx)
                 # Apply periodic boundaries along the x-axis
                 if abs(dx) > self.environment.width / 2:
                     dx = dx - np.sign(dx) * self.environment.width
                     applied = True
+                
 
                 return dx, applied
 
@@ -39,6 +44,7 @@ class Force:
             relative_velocity = self.agents[i].velocity_dash - self.agents[j].velocity_dash
             
             d_dash = separation - self.agents[i].a_dash - self.agents[j].a_dash
+            # print(d_dash)
             
             
             self.agents[i].k1 = - (((self.mu + self.sigma * ramp_function(relative_velocity)) ** 2) / (d_dash ** self.q)) + v0_dash - self.agents[i].velocity_dash

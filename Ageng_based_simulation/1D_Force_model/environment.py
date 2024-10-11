@@ -27,14 +27,11 @@ class Environment:
 
     def apply_periodic_boundary(self, agent):
         """Apply periodic boundary condition for agents using modulo."""
-        if self.periodic:
-            x = agent.position
-            if x > self.width:
-                x = x % self.width
-                agent.position = x
-                return True
-            else:
-                return False
+        x = agent.position
+        if x > self.width:
+            x = x % self.width
+            agent.position = x
+            return True
         else:
             return False
             

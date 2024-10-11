@@ -18,12 +18,15 @@ class Agent:
         self.repulsion_force = 0
         self.total_force = 0
         self.a = self.a0 + self.av * self.velocity
-        self.a_dash = 1 + (self.av / self.tau) * self.velocity
+        
         
         self.av_dash = self.av / self.tau
         self.x_dash = self.position / self.a0
         self.v0_dash = self.v0 * self.tau / self.a0
         self.velocity_dash = velocity * self.tau / self.a0
+        self.a_dash = 1 + (self.av / self.tau) * self.velocity_dash
+        
+        self.width_dash = 200 / self.a0
         
         self.k1 = 0
         self.buffer = {
@@ -36,7 +39,7 @@ class Agent:
         }
         
         
-    def pseudo_move(self, force, dt):
+    def pseudo_move(self, dt):
         # Create a buffer to store temporary values without altering the original state
         buffer = {
             'position': self.position,
@@ -48,14 +51,21 @@ class Agent:
         }
         
         # Simulate the movement in the buffer
-        acceleration_dash = force
+        acceleration_dash = self.k1
         buffer['velocity_dash'] += acceleration_dash * dt
         buffer['velocity'] = buffer['velocity_dash'] * self.a0 / self.tau
         buffer['x_dash'] += buffer['velocity_dash'] * dt
+        x = buffer['x_dash']
+        if x > self.width_dash:
+            x = x % self.width_dash
+            buffer['x_dash'] = x
         buffer['position'] = buffer['x_dash'] * self.a0
 
+
+
+
         # Update a and a_dash in the buffer
-        buffer['a_dash'] = 1 + (self.av / self.tau) * buffer['velocity']
+        buffer['a_dash'] = 1 + (self.av / self.tau) * buffer['velocity_dash']
         buffer['a'] = self.a0 + self.av * buffer['velocity']
         
         self.buffer = buffer
@@ -69,9 +79,15 @@ class Agent:
         self.velocity = self.velocity_dash * self.a0 / self.tau
         # Update the agent's position based on its velocity
         self.x_dash += self.velocity_dash * dt
+        x = self.x_dash
+        if x > self.width_dash:
+            x = x % self.width_dash
+            self.x_dash = x
+        
         self.position = self.x_dash * self.a0
 
-        self.a_dash = 1 + (self.av / self.tau) * self.velocity
+        self.a_dash = 1 + (self.av / self.tau) * self.velocity_dash
+        # print(f'velocity_dash {self.velocity_dash}')
         self.a = self.a0 + self.av * self.velocity
 
         # if self.position[0] > 50 and self.stopped == False:
