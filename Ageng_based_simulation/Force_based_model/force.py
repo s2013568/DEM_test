@@ -159,6 +159,8 @@ class Force:
     ### Repulsive force calculation ###
     ###################################
     
+    
+    
     def calculate_repulsive_forces_1D(self, ellipse = True, eta = 0.2):
         tau = 1.0
         reps = 0.1
