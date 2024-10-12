@@ -43,14 +43,14 @@ class Force_Model:
         self.current_step += 1
         flipped = False
         # print(self.current_step)
-        if self.current_step // 10000 == 0:
+        if self.current_step % 10000 == 0:
             velocities = np.array([agent.velocity_dash for agent in self.agents])
             velocity_std = np.std(velocities)
             if velocity_std > 5:
                 return False
             
             # Append the standard deviation to a CSV file
-            with open(r'C:\\Users\\Peter\\OneDrive - University of Edinburgh\\Desktop\\velocity_std.csv', mode='a', newline='') as file:
+            with open(r'C:\\Users\\Peter\\OneDrive - University of Edinburgh\\Desktop\\velocity_std_super_large.csv', mode='a', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow([self.current_step, velocity_std, self.parameters])
                     

@@ -59,6 +59,9 @@ class Agent:
         if x > self.width_dash:
             x = x % self.width_dash
             buffer['x_dash'] = x
+        elif x < 0:
+            x = self.width_dash + x
+            buffer['x_dash'] = x
         buffer['position'] = buffer['x_dash'] * self.a0
 
 
@@ -82,6 +85,9 @@ class Agent:
         x = self.x_dash
         if x > self.width_dash:
             x = x % self.width_dash
+            self.x_dash = x
+        elif x < 0:
+            x = self.width_dash + x
             self.x_dash = x
         
         self.position = self.x_dash * self.a0
