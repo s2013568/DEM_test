@@ -36,25 +36,79 @@ class Force_Model:
             self.agents[i].move(dt)
             
         
-    
+    def new_force_scheme(self, dt):
+        for i in range(len(self.agents)):
+            if self.agents[i].velocity_dash < 0:
+                j = i - 1
+                
+            else:
+                j = i + 1
+            if j == len(self.agents):
+                j = 0
+            elif j == 0:
+                j = -1
+            self.force.new_repulsive_force_heun(i, j, stage2=False)
+            # self.agents[i].pseudo_move(dt)
+            self.force.new_repulsive_force_heun(i, j, stage2=True)
+            self.agents[i].move(dt)
+            
+            
+    # def new_force_scheme(self, dt):
+    #     """
+    #     Computes the forces based on the closest neighbor interaction using Heun's method.
+    #     """
+    #     num_agents = len(self.agents)
+
+    #     for i in range(num_agents):
+    #         closest_j = None
+    #         min_separation = float('inf')
+
+    #         # Find the closest neighbor
+    #         for j in range(num_agents):
+    #             if i != j:
+    #                 # Calculate separation between agents i and j
+    #                 separation = abs(self.agents[j].x_dash - self.agents[i].x_dash)
+                    
+    #                 # Apply periodic boundary conditions
+    #                 separation = min(separation, self.environment.width - separation)
+
+    #                 # Find the agent with the minimum separation
+    #                 if separation < min_separation:
+    #                     min_separation = separation
+    #                     closest_j = j
+
+    #         # Once we have found the closest neighbor, we perform the force calculations
+    #         if closest_j is not None:
+    #             # Stage 1: Predictor step
+    #             self.force.new_repulsive_force_heun(i, closest_j, stage2=False)
+    #             self.agents[i].pseudo_move(dt)
+                
+    #             # Stage 2: Corrector step
+    #             self.force.new_repulsive_force_heun(i, closest_j, stage2=True)
+    #             self.agents[i].move(dt)
     
     def update(self, dt):
         """ Update the state of the model by one time step """
         self.current_step += 1
         flipped = False
         # print(self.current_step)
-        if self.current_step % 10000 == 0:
+        if self.current_step % 10 == 0:
             velocities = np.array([agent.velocity_dash for agent in self.agents])
             velocity_std = np.std(velocities)
-            if velocity_std > 5:
+            if velocity_std > 5 or np.any(np.abs(velocities) > 10):
                 return False
             
             # Append the standard deviation to a CSV file
-            with open(r'C:\\Users\\Peter\\OneDrive - University of Edinburgh\\Desktop\\velocity_std_super_large.csv', mode='a', newline='') as file:
+            with open(r'C:\\Users\\Peter\\OneDrive - University of Edinburgh\\Desktop\\new_model_std.csv', mode='a', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow([self.current_step, velocity_std, self.parameters])
+            
+            with open(r'C:\\Users\\Peter\\OneDrive - University of Edinburgh\\Desktop\\new_model_trajectory.csv', mode='a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([self.current_step, self.agents[0].position, self.parameters])
                     
-        self.heun_scheme(dt)
+        # self.heun_scheme(dt)
+        self.new_force_scheme(dt)
         
         return True
         
@@ -190,6 +244,7 @@ class Force_Model:
             # Update the positions and forces of agents
             keep_going = self.update(dt)
             if not keep_going:
+                print('dead by velocity')
                 break
             # Log the state of the simulation at regular intervals
             if step % log_interval == 0:
