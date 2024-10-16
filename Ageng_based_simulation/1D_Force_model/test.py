@@ -17,9 +17,9 @@ def create_agents(num_agents, canvas_width=200):
     for i in range(num_agents):
         # Create agents with the same properties except the test agent for the first position
         if i == 0:
-            agents.append(Agent(position=current_x_position + 1.0, velocity=0, a0=1, b0=0.1, tau=1, av = 0, test=True))
+            agents.append(Agent(position=current_x_position + 1.0, velocity=0, a0=1, b0=0.1, tau=1.2, av = 0, test=True))
         else:
-            agents.append(Agent(position=current_x_position, velocity=0, a0=1, b0=1, tau=1,av = 0, test=False))
+            agents.append(Agent(position=current_x_position, velocity=0, a0=1, b0=1, tau=1.2,av = 0, test=False))
         
         current_x_position += space_between_agents
 
