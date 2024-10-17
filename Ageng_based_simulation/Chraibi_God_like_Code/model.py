@@ -9,9 +9,9 @@ from utils import *
 # ---------------------- Parameter ---------------------------------------
 fps = 8  # frames per second
 dt = 0.001  # [s] integrator step length
-t_end = 3000  # [s] integration time
-N_ped = 133  # number of pedestrians delta YN= 1.5
-Length = 200  # [m] length of corridor. *Closed boundary conditions*
+t_end = 203  # [s] integration time
+N_ped = 49  # number of pedestrians delta YN= 1.5
+Length = 17.3  # [m] length of corridor. *Closed boundary conditions*
 # ========================= SOLVER
 RK4 = 0  # 1 --> RK4.
 EULER = 1  # if RK4==0 and EULER==0 ---> Heun
@@ -132,32 +132,37 @@ if __name__ == "__main__":
 
     Dyn = float(Length) / N_ped
     # ============================
-    av = 0.0
+    av = 1.3
     v0 = 1.0
-    a0 = 1.0
-    tau = 1.0
+    a0 = 0.18
+    # tau_values = np.arange(0.5, 1.6, 0.1)  # Generate tau values from 0.5 to 1.5 in steps of 0.1
+    tau_values = [1.0]
     # ============================
     # ------------------------ Files for data --------------------------------------
-    prefix = "%d_av%.2f_v0%.2f" % (N_ped, av, v0)
-    filename = "traj_" + prefix + ".txt"
-    f = open(filename, "wb")
 
-    #    write_geometry()
-    logging.info("start initialisation with %d peds" % N_ped)
-    state = init(N_ped, Length)
+    for tau in tau_values:  # Loop over each tau value
+        prefix = "%d_av%.2f_v0%.2f_tau%.2f" % (N_ped, av, v0, tau)
+        filename = "traj_" + prefix + ".txt"
+        f = open(filename, "wb")
 
-    logging.info(
-        "simulation with v0=%.2f, av=%.2f,  dt=%.4f, rho=%.2f" % (v0, av, dt, rho)
-    )
+        logging.info("start initialisation with %d peds" % N_ped)
+        state = init(N_ped, Length)
 
-    print("filename %s" % filename)
-    t1 = time.perf_counter()
-    ######################################################
-    simulation(N_ped, dt, t_end, state, once, f)
-    ######################################################
-    # a = anim.animate_solution(u, peds, targets)
-    t2 = time.perf_counter()
-    logging.info("simulation time %.3f [s] (%.2f [min])" % ((t2 - t1), (t2 - t1) / 60))
+        logging.info(
+            "simulation with v0=%.2f, av=%.2f,  dt=%.4f, rho=%.2f, tau=%.2f"
+            % (v0, av, dt, rho, tau)
+        )
 
-    logging.info("close %s" % filename)
-    f.close()
+        print("filename %s" % filename)
+        t1 = time.perf_counter()
+        ######################################################
+        simulation(N_ped, dt, t_end, state, once, f)
+        ######################################################
+        t2 = time.perf_counter()
+        logging.info(
+            "simulation time %.3f [s] (%.2f [min]) with tau=%.2f"
+            % ((t2 - t1), (t2 - t1) / 60, tau)
+        )
+
+        logging.info("close %s" % filename)
+        f.close()

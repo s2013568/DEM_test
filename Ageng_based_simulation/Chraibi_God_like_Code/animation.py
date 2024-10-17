@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 # Constants (adjust as needed)
-filename = 'C:\\Users\\Peter\\OneDrive - University of Edinburgh\\Desktop\\PHD\\github\\DEM_test\\traj_133_av0.00_v01.00.txt'  # Replace with your actual file path
+filename = 'Ageng_based_simulation\\Chraibi_God_like_Code\\traj_133_av0.00_v01.00.txt'  # Replace with your actual file path
 fps = 8  # frames per second
 Length = 200  # length of the corridor
 
@@ -31,7 +31,8 @@ ax.set_ylim(-1, 1)  # Assume 1D movement on x-axis, y is fixed
 
 # Initialize scatter plot
 def init():
-    scat.set_offsets([])
+    # Initialize with an empty 2D array
+    scat.set_offsets(np.empty((0, 2)))
     return scat,
 
 # Update scatter plot for each frame
@@ -39,7 +40,7 @@ def update(frame, times, positions):
     t = times[frame]
     x_n = positions[t]  # Get current positions for time t
     y = np.zeros_like(x_n)  # Since it's 1D, all pedestrians are on the same y level
-    data = np.vstack([x_n, y]).T
+    data = np.vstack([x_n, y]).T  # Combine x and y positions into 2D array
     scat.set_offsets(data)
     return scat,
 
