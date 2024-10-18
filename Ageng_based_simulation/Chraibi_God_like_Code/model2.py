@@ -11,7 +11,7 @@ fps = 8  # frames per second
 dt = 0.001  # [s] integrator step length
 t_end = 1000  # [s] integration time
 N_ped = 49  # number of pedestrians delta YN= 1.5
-Length = 17.3  # [m] length of corridor. *Closed boundary conditions*
+Length = 50.26  # [m] length of corridor. *Closed boundary conditions*
 # ========================= SOLVER
 RK4 = 0  # 1 --> RK4.
 EULER = 1  # if RK4==0 and EULER==0 ---> Heun
@@ -132,15 +132,17 @@ if __name__ == "__main__":
 
     Dyn = float(Length) / N_ped
     # ============================
-    # av = 1.3
-    v0 = 1.2
-    a0 = 0.18
+    av = 6.0
+    v0 =  0.6
+    a0 = 0.2
     tau = 0.5
     # tau_values = np.arange(0.5, 1.6, 0.1)  # Generate tau values from 0.5 to 1.5 in steps of 0.1
-rho_values = np.arange(0.5, 4.1, 0.5)  # Densities from 0.5 to 4 in steps of 0.5
+rho_values = np.arange(0.5, 4.6, 0.5)  # Densities from 0.5 to 4 in steps of 0.5
 # tau_values = [0.5, 0.7, 0.9, 1.0, 1.2, 1.4]  # Example tau values you want to test
 
-avs = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+avs = [6.0]
+
+# v0s= np.arange(0.2, 1.2, 0.2)
 
 # Loop over each tau value
 for av in avs:
