@@ -11,7 +11,7 @@ fps = 8  # frames per second
 dt = 0.001  # [s] integrator step length
 t_end = 1000  # [s] integration time
 N_ped = 49  # number of pedestrians delta YN= 1.5
-Length = 50.26  # [m] length of corridor. *Closed boundary conditions*
+Length = 200  # [m] length of corridor. *Closed boundary conditions*
 # ========================= SOLVER
 RK4 = 0  # 1 --> RK4.
 EULER = 1  # if RK4==0 and EULER==0 ---> Heun
@@ -132,47 +132,47 @@ if __name__ == "__main__":
 
     Dyn = float(Length) / N_ped
     # ============================
-    av = 6.0
-    v0 =  0.6
-    a0 = 0.2
-    tau = 0.5
+    av = 0.0
+    v0 =  1.0
+    a0 = 1.0
+    tau = 1.0
     # tau_values = np.arange(0.5, 1.6, 0.1)  # Generate tau values from 0.5 to 1.5 in steps of 0.1
 rho_values = np.arange(0.5, 4.6, 0.5)  # Densities from 0.5 to 4 in steps of 0.5
 # tau_values = [0.5, 0.7, 0.9, 1.0, 1.2, 1.4]  # Example tau values you want to test
 
-avs = [6.0]
+# avs = [6.0]
 
 # v0s= np.arange(0.2, 1.2, 0.2)
 
 # Loop over each tau value
-for av in avs:
+# for av in avs:
     # Loop over each density
-    for rho in rho_values:
-        N_ped = int(rho * Length)  # Calculate N_ped based on the current density
-        
-        # Prefix for file name, includes tau and density (rho)
-        prefix = "%d_av%.2f_v0%.2f_tau%.2f_rho%.2f" % (N_ped, av, v0, tau, rho)
-        filename = "traj_" + prefix + ".txt"
-        f = open(filename, "wb")
-        
-        logging.info("start initialization with %d peds and density %.2f" % (N_ped, rho))
-        state = init(N_ped, Length)
-        
-        logging.info(
-            "simulation with v0=%.2f, av=%.2f, dt=%.4f, rho=%.2f, tau=%.2f"
-            % (v0, av, dt, rho, tau)
-        )
-        
-        print("filename %s" % filename)
-        t1 = time.perf_counter()
-        ######################################################
-        simulation(N_ped, dt, t_end, state, once, f)
-        ######################################################
-        t2 = time.perf_counter()
-        logging.info(
-            "simulation time %.3f [s] (%.2f [min]) with tau=%.2f and density=%.2f"
-            % ((t2 - t1), (t2 - t1) / 60, tau, rho)
-        )
-        
-        logging.info("close %s" % filename)
-        f.close()
+for rho in rho_values:
+    N_ped = int(rho * Length)  # Calculate N_ped based on the current density
+    
+    # Prefix for file name, includes tau and density (rho)
+    prefix = "%d_av%.2f_v0%.2f_tau%.2f_rho%.2f" % (N_ped, av, v0, tau, rho)
+    filename = "traj_" + prefix + ".txt"
+    f = open(filename, "wb")
+    
+    logging.info("start initialization with %d peds and density %.2f" % (N_ped, rho))
+    state = init(N_ped, Length)
+    
+    logging.info(
+        "simulation with v0=%.2f, av=%.2f, dt=%.4f, rho=%.2f, tau=%.2f"
+        % (v0, av, dt, rho, tau)
+    )
+    
+    print("filename %s" % filename)
+    t1 = time.perf_counter()
+    ######################################################
+    simulation(N_ped, dt, t_end, state, once, f)
+    ######################################################
+    t2 = time.perf_counter()
+    logging.info(
+        "simulation time %.3f [s] (%.2f [min]) with tau=%.2f and density=%.2f"
+        % ((t2 - t1), (t2 - t1) / 60, tau, rho)
+    )
+    
+    logging.info("close %s" % filename)
+    f.close()
