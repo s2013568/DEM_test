@@ -1,0 +1,2 @@
+N_ped	Mean vx	Mean vy
+4	nan	nan

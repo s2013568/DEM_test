@@ -15,32 +15,43 @@ def init(N, Length, Width):
     eps_vx = 0  # small perturbation in velocity x-direction
     eps_vy = 0  # small perturbation in velocity y-direction
 
-    # Set spacing based on the number of agents and the length and width of the space
-    shift_x = float(Length) / np.sqrt(N)
-    shift_y = float(Width) / np.sqrt(N)
+    if Width == 0:
+        # Single line initialization
+        shift_x = float(Length) / N
+        x_positions = 0.5 * shift_x + shift_x * np.arange(N) + np.random.uniform(0, eps_x, N)
+        y_positions = np.ones(N)
+        positions = np.vstack([x_positions, y_positions])
+    else:
+        # 2D grid initialization
+        shift_x = float(Length) / np.sqrt(N)
+        shift_y = float(Width) / np.sqrt(N)
 
-    # Initialize positions in a grid pattern with random perturbations
-    x_n = 0.5 * shift_x + shift_x * np.arange(int(np.sqrt(N))) + np.random.uniform(0, eps_x, int(np.sqrt(N)))
-    y_n = 0.5 * shift_y + shift_y * np.arange(int(np.sqrt(N))) + np.random.uniform(0, eps_y, int(np.sqrt(N)))
+        x_n = 0.5 * shift_x + shift_x * np.arange(int(np.sqrt(N)))
+        y_n = 0.5 * shift_y + shift_y * np.arange(int(np.sqrt(N))) 
 
-    # Repeat to create a grid layout
-    xx, yy = np.meshgrid(x_n, y_n)
-    positions = np.vstack([xx.ravel()[:N], yy.ravel()[:N]])
+        xx, yy = np.meshgrid(x_n, y_n)
+        positions = np.vstack([xx.ravel()[:N], yy.ravel()[:N]])
 
-    # Add a small error to the first agent's position
-    positions[0, 0] += error
+        # Add a small error to the first agent's position
+        positions[0, 0] += error
 
     # Initialize velocities with small perturbations
+    # velocities = np.vstack([
+    #     np.random.uniform(0, eps_vx, N),
+    #     np.random.uniform(0, eps_vy, N)
+    # ])
     velocities = np.vstack([
-        np.random.uniform(0, eps_vx, N),
-        np.random.uniform(0, eps_vy, N)
+        np.full(N, 0.01),
+        np.full(N, 0.01)
     ])
+
+
 
     return np.vstack([positions, velocities])
 
 #======================================================
-def euler(x, h, y, f):
-    y_new, flag = f(x, y)
+def euler(x, h, y, f, param):
+    y_new, flag = f(x, y, param)
     return x + h, y + h * y_new, flag
 
 #======================================================
