@@ -42,15 +42,15 @@ def run_simulations():
     param = (80, 0.5, 1.5, 100, 0, True, 2000, 0.08, 0.2, 0.6, 120000)
     m, tau, v0, Length, Width, periodic, A, B, delta_t, fixed_radius, k= param
     dt = 0.01
-    t_end = 3
+    t_end = 5
     fps = 8
 
     velocities = []  # List to store final mean velocities for each N_ped
 
-    with open("mean_velocities.txt", "w") as outfile:
+    with open("mean_velocities_check.txt", "w") as outfile:
         outfile.write("N_ped\tMean vx\tMean vy\n")  # Write headers to the file
 
-        for N_ped in list(range(1, 100)):
+        for N_ped in [50]:
 
             prefix = "tau%.2f_v0%.2f_Length%.2f_Width%.2f_periodic%s_A%.2f_B%.2f_delta_t%.2f" % (tau, v0, Length, Width, str(periodic), A, B, delta_t)
             filename = f"traj_{prefix}_N{N_ped}.txt"
