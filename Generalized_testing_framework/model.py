@@ -1,7 +1,7 @@
 from utils import *
 
 
-def Helbing_Model_2D(t, state, param):
+def Helbing_Model_2D(t, state, param, walls):
     """
     Fully vectorized Helbing model with projected distance calculation for repulsive forces.
     Includes directional term w to modulate the repulsive force based on angle.
@@ -36,6 +36,10 @@ def Helbing_Model_2D(t, state, param):
     # Driving force (vectorized for all agents)
     f_drv = m * (desired_velocity - velocities) / tau
 
+
+    ############################################################
+    #Repulsive Force#
+    ############################################################
     # Calculate pairwise position differences
     dx_matrix = positions[0, :, np.newaxis] - positions[0, np.newaxis, :]
     dy_matrix = positions[1, :, np.newaxis] - positions[1, np.newaxis, :]
@@ -79,13 +83,13 @@ def Helbing_Model_2D(t, state, param):
     # Calculate angle between agent's velocity direction and eij
     dot_product = velocities[0, :, np.newaxis] * eij_x + velocities[1, :, np.newaxis] * eij_y
     vel_magnitude = np.sqrt(velocities[0, :]**2 + velocities[1, :]**2).reshape(-1, 1)
-    cos_theta = dot_product / vel_magnitude
+    cos_theta = dot_product / (vel_magnitude+ 1e-9)
 
     # Apply 0.5 factor for agents behind (cos_theta < 0)
-    angle_factor = np.where(cos_theta < 0, 0, 1)
+    angle_factor = np.where(cos_theta < 0, 1, 0.0)
 
     # Combine forces with angle factor
-    force_magnitude = - (repulsive_force_magnitude* angle_factor + body_force_magnitude) 
+    force_magnitude = (repulsive_force_magnitude* angle_factor + body_force_magnitude) 
 
     # Calculate force components
     repulsive_force_x = np.sum(force_magnitude * eij_x + tangential_friction_magnitude * tij_x, axis=1)
@@ -94,8 +98,74 @@ def Helbing_Model_2D(t, state, param):
     # Combine the x and y components into a single repulsive force vector
     repulsive_force = np.vstack((repulsive_force_x, repulsive_force_y))
 
+
+    ############################################################
+    #Wall Force#
+    ############################################################
+    wall_start_points = np.array([[wall[0], wall[1]] for wall in walls]).T  # Shape (2, num_walls)
+    wall_end_points = np.array([[wall[2], wall[3]] for wall in walls]).T    # Shape (2, num_walls)
+    wall_vectors = wall_end_points - wall_start_points  # Shape (2, num_walls)
+    wall_lengths = np.linalg.norm(wall_vectors, axis=0)
+
+    # Unit vectors along the walls
+    wall_units = wall_vectors / wall_lengths
+
+    # Initialize wall forces to zero
+    wall_forces = np.zeros((2, N))
+
+    # Calculate distances and forces from each wall to each agent
+    for i in range(wall_units.shape[1]):
+        # Vectors from wall start to agents
+        wall_to_agent_vectors = positions - wall_start_points[:, i][:, np.newaxis]  # Shape (2, N)
+
+        # Project wall-to-agent vectors onto the wall direction to find parallel components
+        projection_lengths = np.dot(wall_units[:, i], wall_to_agent_vectors)  # Shape (N,)
+        projection_lengths_clipped = np.clip(projection_lengths, 0, wall_lengths[i])
+
+        # Closest points on the wall to each agent
+        closest_points = wall_start_points[:, i][:, np.newaxis] + wall_units[:, i][:, np.newaxis] * projection_lengths_clipped
+
+        # Perpendicular vectors from agents to closest points on the wall
+        perp_vectors = positions - closest_points  # Shape (2, N)
+
+        # Perpendicular distances from agents to the wall
+        perp_distances = np.linalg.norm(perp_vectors, axis=0)  # Shape (N,)
+
+        # Avoid division by zero by setting a minimum distance
+        perp_distances = np.maximum(perp_distances, 1e-9)
+
+        # Unit vectors in the direction of the perpendicular force (from wall to agent)
+        e_w = perp_vectors / perp_distances
+
+        # Tangential direction unit vector (perpendicular to e_w)
+        t_w = np.array([-e_w[1, :], e_w[0, :]])  # Shape (2, N)
+
+        # Wall repulsive force magnitude
+        repulsive_force_magnitude_wall = A * np.exp((fixed_radius - perp_distances) / B)
+
+        # Body compression force (only if agent is in contact with the wall)
+        body_force_magnitude_wall = np.where(perp_distances < fixed_radius, k * (fixed_radius - perp_distances), 0)
+
+        # Directional modulation based on velocity angle
+        dot_product_wall = np.sum(velocities * e_w, axis=0)
+        vel_magnitude_wall = np.linalg.norm(velocities, axis=0)
+        cos_theta_wall = dot_product_wall / (vel_magnitude_wall + 1e-9)
+        angle_factor_wall =  np.where(cos_theta_wall < 0, 1, 0.0)
+
+        # Combine repulsive and body forces with angle factor
+        force_magnitude_wall = (repulsive_force_magnitude_wall * angle_factor_wall + body_force_magnitude_wall)
+
+        # Tangential friction force (only if agent is in contact with the wall)
+        vel_diff_tangential_wall = np.sum(velocities * t_w, axis=0)
+        tangential_friction_magnitude_wall = np.where(perp_distances < fixed_radius, -k * (fixed_radius - perp_distances) * vel_diff_tangential_wall, 0)
+
+        # Calculate force components
+        wall_forces += force_magnitude_wall * e_w + tangential_friction_magnitude_wall * t_w
+
+
+
     # Total acceleration (driving force + repulsive force)
-    total_force = f_drv + repulsive_force
+    total_force = f_drv + repulsive_force + wall_forces
     accelerations = total_force / m
 
     # Update positions and velocities using Euler's method

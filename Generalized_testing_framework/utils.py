@@ -13,7 +13,7 @@ def init(N, Length, Width):
     eps_x = 0  # small perturbation in x-direction
     eps_y = 0  # small perturbation in y-direction
     eps_vx = 0  # small perturbation in velocity x-direction
-    eps_vy = 0  # small perturbation in velocity y-direction
+    eps_vy = 0  # small perturbation in y-direction
 
     if Width == 0:
         # Single line initialization
@@ -23,11 +23,12 @@ def init(N, Length, Width):
         positions = np.vstack([x_positions, y_positions])
     else:
         # 2D grid initialization
-        shift_x = float(Length) / np.sqrt(N)
-        shift_y = float(Width) / np.sqrt(N)
+        grid_size = int(np.ceil(np.sqrt(N)))  # Determine the size of the grid
+        shift_x = float(Length) / grid_size
+        shift_y = float(Width) / grid_size
 
-        x_n = 0.5 * shift_x + shift_x * np.arange(int(np.sqrt(N)))
-        y_n = 0.5 * shift_y + shift_y * np.arange(int(np.sqrt(N))) 
+        x_n = 0.5 * shift_x + shift_x * np.arange(grid_size)
+        y_n = 0.5 * shift_y + shift_y * np.arange(grid_size)
 
         xx, yy = np.meshgrid(x_n, y_n)
         positions = np.vstack([xx.ravel()[:N], yy.ravel()[:N]])
@@ -36,22 +37,17 @@ def init(N, Length, Width):
         positions[0, 0] += error
 
     # Initialize velocities with small perturbations
-    # velocities = np.vstack([
-    #     np.random.uniform(0, eps_vx, N),
-    #     np.random.uniform(0, eps_vy, N)
-    # ])
     velocities = np.vstack([
-        np.full(N, 0.01),
-        np.full(N, 0.01)
+        np.full(N, 0.00),
+        np.full(N, 0.00)
     ])
-
-
 
     return np.vstack([positions, velocities])
 
+
 #======================================================
-def euler(x, h, y, f, param):
-    y_new, flag = f(x, y, param)
+def euler(x, h, y, f, param, walls):
+    y_new, flag = f(x, y, param, walls)
     return x + h, y + h * y_new, flag
 
 #======================================================

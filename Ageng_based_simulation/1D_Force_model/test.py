@@ -1,4 +1,4 @@
-from environment import Environment
+from Generalized_testing_framework.environment import Environment
 from agent import Agent
 from main import Force_Model
 import csv

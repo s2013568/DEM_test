@@ -3,10 +3,11 @@ import logging
 import time
 from utils import *
 from model import *
+from environment import environments
 
 # Assuming init, euler, and Helbing_Model_2D functions are defined elsewhere in your script
 
-def simulation(N_ped, dt, t_end, state, once, f, fps, param):
+def simulation(N_ped, dt, t_end, state, once, f, fps, param, walls):
     t = 0
     frame = 0
     iframe = 0
@@ -25,7 +26,7 @@ def simulation(N_ped, dt, t_end, state, once, f, fps, param):
             f.flush()
             iframe += 1
 
-        t, state, flag = euler(t, dt, state, Helbing_Model_2D, param)
+        t, state, flag = euler(t, dt, state, Helbing_Model_2D, param, walls)
 
         frame += 1
     
@@ -39,10 +40,11 @@ def run_simulations():
         level=logging.DEBUG,
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
-    param = (80, 0.5, 1.5, 100, 0, True, 2000, 0.08, 0.2, 0.6, 120000)
+    param = (80, 0.5, 1.5, 100, 10, True, 2000, 0.08, 0.2, 0.6, 120000)
+    walls = environments["Straight Flow"]
     m, tau, v0, Length, Width, periodic, A, B, delta_t, fixed_radius, k= param
     dt = 0.01
-    t_end = 3
+    t_end = 100
     fps = 8
 
     velocities = []  # List to store final mean velocities for each N_ped
@@ -50,19 +52,20 @@ def run_simulations():
     with open("mean_velocities.txt", "w") as outfile:
         outfile.write("N_ped\tMean vx\tMean vy\n")  # Write headers to the file
 
-        for N_ped in list(range(1, 100)):
+        # for N_ped in list(range(1, 80)):
+        for N_ped in [80]:
 
             prefix = "tau%.2f_v0%.2f_Length%.2f_Width%.2f_periodic%s_A%.2f_B%.2f_delta_t%.2f" % (tau, v0, Length, Width, str(periodic), A, B, delta_t)
             filename = f"traj_{prefix}_N{N_ped}.txt"
             
             with open(filename, "wb") as f:
-                state = init(N_ped, Length, 0)
+                state = init(N_ped, Length, Width)
                 logging.info(
                     f"Starting simulation with N_ped={N_ped}, tau={tau}, v0={v0}, Length={Length}, Width={Width}, periodic={periodic}, A={A}, B={B}, delta_t={delta_t}"
                 )
                 
                 t1 = time.perf_counter()
-                last_vx, last_vy = simulation(N_ped, dt, t_end, state, 1, f, fps, param)
+                last_vx, last_vy = simulation(N_ped, dt, t_end, state, 1, f, fps, param, walls)
                 t2 = time.perf_counter()
                 
                 logging.info(
