@@ -1,0 +1,2 @@
+2024-11-03 18:07:17,366 - INFO - Starting simulation with N_ped=100, tau=0.5, v0=1.5, Length=50, Width=10, periodic=False, A=2000, B=0.08, delta_t=0.2
+2024-11-03 18:07:32,101 - INFO - Simulation time: 14.741 s (0.25 min) with tau=0.50 and N_ped=100

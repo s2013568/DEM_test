@@ -22,13 +22,16 @@ def init(N, Length, Width):
         y_positions = np.ones(N)
         positions = np.vstack([x_positions, y_positions])
     else:
-        # 2D grid initialization
-        grid_size = int(np.ceil(np.sqrt(N)))  # Determine the size of the grid
-        shift_x = float(Length) / grid_size
-        shift_y = float(Width) / grid_size
+        # 2D grid initialization with a maximum of 10 agents along y-axis
+        max_y_agents = 5
+        y_count = min(max_y_agents, N)  # Number of agents along y-axis, limited to max_y_agents
+        x_count = int(np.ceil(N / y_count))  # Number of agents along x-axis
 
-        x_n = 0.5 * shift_x + shift_x * np.arange(grid_size)
-        y_n = 0.5 * shift_y + shift_y * np.arange(grid_size)
+        shift_x = float(Length) / x_count
+        shift_y = float(Width) / y_count
+
+        x_n = 0.5 * shift_x + shift_x * np.arange(x_count)
+        y_n = 0.5 * shift_y + shift_y * np.arange(y_count)
 
         xx, yy = np.meshgrid(x_n, y_n)
         positions = np.vstack([xx.ravel()[:N], yy.ravel()[:N]])
@@ -46,8 +49,30 @@ def init(N, Length, Width):
 
 
 #======================================================
-def euler(x, h, y, f, param, walls):
-    y_new, flag = f(x, y, param, walls)
+def line_intersects(p1, p2, q1, q2):
+    """
+    Check if line segment p1-p2 intersects with line segment q1-q2.
+
+    Parameters:
+        p1, p2, q1, q2: Each is a tuple or list representing a point (x, y).
+
+    Returns:
+        bool: True if the line segments intersect, False otherwise.
+    """
+    def ccw(a, b, c):
+        # Check if three points a, b, c are listed in a counterclockwise order
+        return (c[1] - a[1]) * (b[0] - a[0]) > (b[1] - a[1]) * (c[0] - a[0])
+
+    # p1-p2 and q1-q2 intersect if and only if the points are in a different orientation
+    return (ccw(p1, q1, q2) != ccw(p2, q1, q2)) and (ccw(p1, p2, q1) != ccw(p1, p2, q2))
+
+
+
+
+
+#======================================================
+def euler(x, h, y, f, param, walls, mode):
+    y_new, flag = f(x, y, param, walls, mode)
     return x + h, y + h * y_new, flag
 
 #======================================================

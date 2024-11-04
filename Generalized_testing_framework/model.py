@@ -1,7 +1,7 @@
 from utils import *
 
 
-def Helbing_Model_2D(t, state, param, walls):
+def Helbing_Model_2D(t, state, param, walls, mode = 'Line_Method'):
     """
     Fully vectorized Helbing model with projected distance calculation for repulsive forces.
     Includes directional term w to modulate the repulsive force based on angle.
@@ -31,7 +31,58 @@ def Helbing_Model_2D(t, state, param, walls):
     N = positions.shape[1]  # Number of agents
 
     # Desired velocity vector in the x direction (for simplicity)
-    desired_velocity = np.array([[v0], [0]])
+    if mode == 'Line_Method':
+        desired_velocity = np.array([[v0], [0]])
+    elif mode == 'Rounding_Corner':
+        guide_line_start = np.array([50, -2])
+        guide_line_end = np.array([60, -2])
+
+        desired_velocity = np.zeros_like(velocities)
+        for i in range(N):
+            agent_pos = positions[:, i]
+
+            if agent_pos[0] > 51:
+                # Agent has passed point (51, 0), set desired velocity to (0, -v0)
+                desired_velocity[:, i] = np.array([0, -v0])
+            else:
+                # Find vector between agent and point (50, 0)
+                vector_to_point = np.array([51, 0]) - agent_pos
+
+                # Extrapolate the vector and check if it intersects the guide line
+                extrapolated_end = agent_pos + 10 * vector_to_point  # Extend the vector
+                if line_intersects(agent_pos, extrapolated_end, guide_line_start, guide_line_end):
+                    # Set desired velocity direction to the guide line
+                    desired_velocity[:, i] = vector_to_point / np.linalg.norm(vector_to_point) * v0
+                else:
+                    # Set desired velocity to (v0, 0)
+                    desired_velocity[:, i] = np.array([v0, 0])
+    elif mode == 'Entering':
+        guide_line_start = np.array([50, 3.5])
+        guide_line_end = np.array([50, 6.5])
+
+        desired_velocity = np.zeros_like(velocities)
+        for i in range(N):
+            agent_pos = positions[:, i]
+
+            if agent_pos[0] > 50:
+                # Agent has passed x = 50, set desired velocity to (v0, 0)
+                desired_velocity[:, i] = np.array([v0, 0])
+            else:
+                # Calculate the shortest distance from agent to the guide line
+                line_vector = guide_line_end - guide_line_start
+                line_length = np.linalg.norm(line_vector)
+                line_unit_vector = line_vector / line_length
+
+                agent_to_line_start = agent_pos - guide_line_start
+                projection_length = np.dot(agent_to_line_start, line_unit_vector)
+                projection_length_clipped = np.clip(projection_length, 0, line_length)
+
+                closest_point = guide_line_start + projection_length_clipped * line_unit_vector
+                vector_to_closest_point = closest_point - agent_pos
+
+                # Set desired velocity towards the closest point on the guide line
+                desired_velocity[:, i] = vector_to_closest_point / np.linalg.norm(vector_to_closest_point) * v0
+
 
     # Driving force (vectorized for all agents)
     f_drv = m * (desired_velocity - velocities) / tau
