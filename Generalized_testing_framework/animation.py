@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 # Constants (adjust as needed)
-filename = 'traj_tau0.50_v01.50_Length50.00_Width10.00_periodicFalse_A2000.00_B0.08_delta_t0.20_N50.txt'  # Replace with your actual file path
+filename = 'traj_tau0.50_v01.50_Length100.00_Width10.00_periodicTrue_A2000.00_B0.08_delta_t0.20_N100.txt'  # Replace with your actual file path
 
 fps = 8  # frames per second
-Length = 110  # length of the corridor
+Length = 100  # length of the corridor
 Width = 400  # width of the corridor
 agent_radius = 0.5  # radius of the surrounding circle
 
@@ -30,8 +30,8 @@ scat = ax.scatter([], [], c='blue', s=50)
 circles = []  # List to store circle patches
 
 # Set up the plot limits based on the corridor length and width
-ax.set_xlim(0, 60)
-ax.set_ylim(-10, 10)  # Set y limits according to the width of the corridor
+ax.set_xlim(0, 100)
+ax.set_ylim(0, 10)  # Set y limits according to the width of the corridor
 
 # Initialize scatter plot
 def init():
@@ -46,7 +46,7 @@ def update(frame, times, positions):
     pos = positions[t]  # Get current positions for time t
 
     # Apply periodic boundary conditions
-    pos[:, 0] = pos[:, 0]  # Wrap x positions around Length
+    pos[:, 0] = pos[:, 0] % Length  # Wrap x positions around Length
     pos[:, 1] = pos[:, 1]  # Wrap y positions around Width
 
     # Update scatter plot with new positions

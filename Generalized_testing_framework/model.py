@@ -24,6 +24,7 @@ def Helbing_Model_2D(t, state, param, walls, mode = 'Line_Method'):
   
     # Unpack parameters
     m, tau, v0, Length, Width, periodic, A, B, delta_t, fixed_radius, k = param
+    alt_k = 2 * k
 
     # Extract positions and velocities
     positions = np.round(state[:2, :], decimals=9)  # positions = [x, y] for each agent
@@ -57,14 +58,14 @@ def Helbing_Model_2D(t, state, param, walls, mode = 'Line_Method'):
                     # Set desired velocity to (v0, 0)
                     desired_velocity[:, i] = np.array([v0, 0])
     elif mode == 'Entering':
-        guide_line_start = np.array([50, 3.5])
-        guide_line_end = np.array([50, 6.5])
+        guide_line_start = np.array([49.5, 3.6])
+        guide_line_end = np.array([49.5, 6.4])
 
         desired_velocity = np.zeros_like(velocities)
         for i in range(N):
             agent_pos = positions[:, i]
 
-            if agent_pos[0] > 50:
+            if agent_pos[0] > 49.5:
                 # Agent has passed x = 50, set desired velocity to (v0, 0)
                 desired_velocity[:, i] = np.array([v0, 0])
             else:
@@ -83,6 +84,20 @@ def Helbing_Model_2D(t, state, param, walls, mode = 'Line_Method'):
                 # Set desired velocity towards the closest point on the guide line
                 desired_velocity[:, i] = vector_to_closest_point / np.linalg.norm(vector_to_closest_point) * v0
 
+    elif mode == "Bi-Directional Flow":
+        if 'bi_directional_velocity' not in Helbing_Model_2D.__dict__:
+            desired_velocity = np.zeros_like(velocities)
+            # Randomly choose half of agents desired velocity to be np.array([[v0], [0]]) and other half to be np.array([[-v0], [0]])
+            half_N = N // 2
+            desired_velocity[:, :half_N] = np.array([[v0], [0]])
+            desired_velocity[:, half_N:] = np.array([[-v0], [0]])
+            # Shuffle the desired velocities to ensure randomness
+            indices = np.arange(N)
+            np.random.shuffle(indices)
+            desired_velocity = desired_velocity[:, indices]
+            Helbing_Model_2D.bi_directional_velocity = desired_velocity
+        else:
+            desired_velocity = Helbing_Model_2D.bi_directional_velocity
 
     # Driving force (vectorized for all agents)
     f_drv = m * (desired_velocity - velocities) / tau
@@ -129,15 +144,22 @@ def Helbing_Model_2D(t, state, param, walls, mode = 'Line_Method'):
 
 
     # Tangential friction force (only if agents are in contact)
-    tangential_friction_magnitude = np.where(dist_matrix < radii_sum, k * (radii_sum - dist_matrix) * vel_diff_tangential, 0)
+    tangential_friction_magnitude = np.where(dist_matrix < radii_sum, alt_k * (radii_sum - dist_matrix) * vel_diff_tangential, 0)
 
     # Calculate angle between agent's velocity direction and eij
     dot_product = velocities[0, :, np.newaxis] * eij_x + velocities[1, :, np.newaxis] * eij_y
     vel_magnitude = np.sqrt(velocities[0, :]**2 + velocities[1, :]**2).reshape(-1, 1)
-    cos_theta = dot_product / (vel_magnitude+ 1e-9)
+    cos_theta = dot_product / (vel_magnitude + 1e-9)
+    # Ensure cos_theta is clipped within [-1, 1] to prevent issues with floating-point precision
+    cos_theta = np.clip(cos_theta, -1, 1)
 
-    # Apply 0.5 factor for agents behind (cos_theta < 0)
-    angle_factor = np.where(cos_theta < 0, 1, 0.0)
+    # Calculate angle factor based on cosine of angle
+    angle_factor = 0.5 * (1 - cos_theta)
+
+    # print(angle_factor)
+
+    # angle_factor = np.where(cos_theta < 0, 1, 0.5)
+
 
     # Combine forces with angle factor
     force_magnitude = (repulsive_force_magnitude* angle_factor + body_force_magnitude) 
@@ -217,6 +239,7 @@ def Helbing_Model_2D(t, state, param, walls, mode = 'Line_Method'):
 
     # Total acceleration (driving force + repulsive force)
     total_force = f_drv + repulsive_force + wall_forces
+    # print(repulsive_force)
     accelerations = total_force / m
 
     # Update positions and velocities using Euler's method

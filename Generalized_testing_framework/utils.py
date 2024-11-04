@@ -10,8 +10,8 @@ def sh(script):
 #======================================================
 def init(N, Length, Width):
     error = 0.0  # small positional error
-    eps_x = 0  # small perturbation in x-direction
-    eps_y = 0  # small perturbation in y-direction
+    eps_x = 1  # small perturbation in x-direction
+    eps_y = 0.2  # small perturbation in y-direction
     eps_vx = 0  # small perturbation in velocity x-direction
     eps_vy = 0  # small perturbation in y-direction
 
@@ -23,15 +23,15 @@ def init(N, Length, Width):
         positions = np.vstack([x_positions, y_positions])
     else:
         # 2D grid initialization with a maximum of 10 agents along y-axis
-        max_y_agents = 5
+        max_y_agents = 6
         y_count = min(max_y_agents, N)  # Number of agents along y-axis, limited to max_y_agents
         x_count = int(np.ceil(N / y_count))  # Number of agents along x-axis
 
         shift_x = float(Length) / x_count
         shift_y = float(Width) / y_count
 
-        x_n = 0.5 * shift_x + shift_x * np.arange(x_count)
-        y_n = 0.5 * shift_y + shift_y * np.arange(y_count)
+        x_n = 0.5 * shift_x + shift_x * np.arange(x_count) + np.random.uniform(-eps_x, eps_x, x_count)
+        y_n = 0.5 * shift_y + shift_y * np.arange(y_count)+ np.random.uniform(-eps_y, eps_y, y_count)
 
         xx, yy = np.meshgrid(x_n, y_n)
         positions = np.vstack([xx.ravel()[:N], yy.ravel()[:N]])
