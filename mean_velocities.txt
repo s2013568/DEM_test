@@ -1,2 +1,0 @@
-N_ped	Mean vx	Mean vy
-100	-0.0202	0.0096

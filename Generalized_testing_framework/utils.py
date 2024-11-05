@@ -10,8 +10,8 @@ def sh(script):
 #======================================================
 def init(N, Length, Width):
     error = 0.0  # small positional error
-    eps_x = 1  # small perturbation in x-direction
-    eps_y = 0.2  # small perturbation in y-direction
+    eps_x = 0.0  # small perturbation in x-direction
+    eps_y = 0.0  # small perturbation in y-direction
     eps_vx = 0  # small perturbation in velocity x-direction
     eps_vy = 0  # small perturbation in y-direction
 

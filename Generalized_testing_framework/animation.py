@@ -1,9 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from matplotlib.animation import FuncAnimation, PillowWriter
 
 # Constants (adjust as needed)
-filename = 'traj_tau0.50_v01.50_Length100.00_Width10.00_periodicTrue_A2000.00_B0.08_delta_t0.20_N100.txt'  # Replace with your actual file path
+filename = 'Generalized_testing_framework/traj_tau0.50_v01.50_Length100.00_Width10.00_periodicTrue_A2000.00_B0.08_delta_t0.20_N100.txt'  # Replace with your actual file path
+
 
 fps = 8  # frames per second
 Length = 100  # length of the corridor
@@ -80,6 +82,8 @@ def animate_from_file(filename, max_frames=1000):
 
     # Show the animation
     plt.show()
+
+    #anim.save('crowd_simulation.gif', writer=PillowWriter(fps=fps))
 
 if __name__ == "__main__":
     # Call the animation function with the filename of the txt file

@@ -1,158 +1,200 @@
-2024-11-02 18:12:54,162 - INFO - Starting simulation with N_ped=1, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:12:56,918 - INFO - Simulation time: 2.757 s (0.05 min) with tau=0.50 and N_ped=1
-2024-11-02 18:12:56,918 - INFO - Starting simulation with N_ped=2, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:12:59,410 - INFO - Simulation time: 2.477 s (0.04 min) with tau=0.50 and N_ped=2
-2024-11-02 18:12:59,421 - INFO - Starting simulation with N_ped=3, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:01,928 - INFO - Simulation time: 2.505 s (0.04 min) with tau=0.50 and N_ped=3
-2024-11-02 18:13:01,937 - INFO - Starting simulation with N_ped=4, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:04,981 - INFO - Simulation time: 3.042 s (0.05 min) with tau=0.50 and N_ped=4
-2024-11-02 18:13:04,997 - INFO - Starting simulation with N_ped=5, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:07,546 - INFO - Simulation time: 2.535 s (0.04 min) with tau=0.50 and N_ped=5
-2024-11-02 18:13:07,583 - INFO - Starting simulation with N_ped=6, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:10,403 - INFO - Simulation time: 2.826 s (0.05 min) with tau=0.50 and N_ped=6
-2024-11-02 18:13:10,418 - INFO - Starting simulation with N_ped=7, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:13,007 - INFO - Simulation time: 2.582 s (0.04 min) with tau=0.50 and N_ped=7
-2024-11-02 18:13:13,040 - INFO - Starting simulation with N_ped=8, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:15,853 - INFO - Simulation time: 2.811 s (0.05 min) with tau=0.50 and N_ped=8
-2024-11-02 18:13:15,888 - INFO - Starting simulation with N_ped=9, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:21,525 - INFO - Simulation time: 5.636 s (0.09 min) with tau=0.50 and N_ped=9
-2024-11-02 18:13:21,529 - INFO - Starting simulation with N_ped=10, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:27,117 - INFO - Simulation time: 5.580 s (0.09 min) with tau=0.50 and N_ped=10
-2024-11-02 18:13:27,123 - INFO - Starting simulation with N_ped=11, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:32,789 - INFO - Simulation time: 5.650 s (0.09 min) with tau=0.50 and N_ped=11
-2024-11-02 18:13:32,804 - INFO - Starting simulation with N_ped=12, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:38,982 - INFO - Simulation time: 6.177 s (0.10 min) with tau=0.50 and N_ped=12
-2024-11-02 18:13:38,996 - INFO - Starting simulation with N_ped=13, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:45,270 - INFO - Simulation time: 6.273 s (0.10 min) with tau=0.50 and N_ped=13
-2024-11-02 18:13:45,279 - INFO - Starting simulation with N_ped=14, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:52,703 - INFO - Simulation time: 7.431 s (0.12 min) with tau=0.50 and N_ped=14
-2024-11-02 18:13:52,716 - INFO - Starting simulation with N_ped=15, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:13:58,356 - INFO - Simulation time: 5.637 s (0.09 min) with tau=0.50 and N_ped=15
-2024-11-02 18:13:58,372 - INFO - Starting simulation with N_ped=16, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:04,169 - INFO - Simulation time: 5.788 s (0.10 min) with tau=0.50 and N_ped=16
-2024-11-02 18:14:04,185 - INFO - Starting simulation with N_ped=17, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:10,180 - INFO - Simulation time: 5.991 s (0.10 min) with tau=0.50 and N_ped=17
-2024-11-02 18:14:10,194 - INFO - Starting simulation with N_ped=18, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:16,404 - INFO - Simulation time: 6.220 s (0.10 min) with tau=0.50 and N_ped=18
-2024-11-02 18:14:16,419 - INFO - Starting simulation with N_ped=19, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:22,107 - INFO - Simulation time: 5.677 s (0.09 min) with tau=0.50 and N_ped=19
-2024-11-02 18:14:22,107 - INFO - Starting simulation with N_ped=20, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:28,372 - INFO - Simulation time: 6.244 s (0.10 min) with tau=0.50 and N_ped=20
-2024-11-02 18:14:28,388 - INFO - Starting simulation with N_ped=21, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:34,982 - INFO - Simulation time: 6.595 s (0.11 min) with tau=0.50 and N_ped=21
-2024-11-02 18:14:34,997 - INFO - Starting simulation with N_ped=22, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:41,139 - INFO - Simulation time: 6.139 s (0.10 min) with tau=0.50 and N_ped=22
-2024-11-02 18:14:41,154 - INFO - Starting simulation with N_ped=23, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:47,154 - INFO - Simulation time: 6.000 s (0.10 min) with tau=0.50 and N_ped=23
-2024-11-02 18:14:47,185 - INFO - Starting simulation with N_ped=24, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:14:53,509 - INFO - Simulation time: 6.322 s (0.11 min) with tau=0.50 and N_ped=24
-2024-11-02 18:14:53,525 - INFO - Starting simulation with N_ped=25, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:00,561 - INFO - Simulation time: 7.044 s (0.12 min) with tau=0.50 and N_ped=25
-2024-11-02 18:15:00,583 - INFO - Starting simulation with N_ped=26, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:06,909 - INFO - Simulation time: 6.325 s (0.11 min) with tau=0.50 and N_ped=26
-2024-11-02 18:15:06,924 - INFO - Starting simulation with N_ped=27, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:13,281 - INFO - Simulation time: 6.363 s (0.11 min) with tau=0.50 and N_ped=27
-2024-11-02 18:15:13,296 - INFO - Starting simulation with N_ped=28, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:19,920 - INFO - Simulation time: 6.626 s (0.11 min) with tau=0.50 and N_ped=28
-2024-11-02 18:15:19,935 - INFO - Starting simulation with N_ped=29, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:26,594 - INFO - Simulation time: 6.644 s (0.11 min) with tau=0.50 and N_ped=29
-2024-11-02 18:15:26,607 - INFO - Starting simulation with N_ped=30, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:32,948 - INFO - Simulation time: 6.340 s (0.11 min) with tau=0.50 and N_ped=30
-2024-11-02 18:15:32,965 - INFO - Starting simulation with N_ped=31, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:39,597 - INFO - Simulation time: 6.637 s (0.11 min) with tau=0.50 and N_ped=31
-2024-11-02 18:15:39,628 - INFO - Starting simulation with N_ped=32, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:46,780 - INFO - Simulation time: 7.151 s (0.12 min) with tau=0.50 and N_ped=32
-2024-11-02 18:15:46,810 - INFO - Starting simulation with N_ped=33, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:53,342 - INFO - Simulation time: 6.542 s (0.11 min) with tau=0.50 and N_ped=33
-2024-11-02 18:15:53,358 - INFO - Starting simulation with N_ped=34, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:15:59,848 - INFO - Simulation time: 6.479 s (0.11 min) with tau=0.50 and N_ped=34
-2024-11-02 18:15:59,860 - INFO - Starting simulation with N_ped=35, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:16:06,530 - INFO - Simulation time: 6.676 s (0.11 min) with tau=0.50 and N_ped=35
-2024-11-02 18:16:06,545 - INFO - Starting simulation with N_ped=36, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:16:13,782 - INFO - Simulation time: 7.232 s (0.12 min) with tau=0.50 and N_ped=36
-2024-11-02 18:16:13,798 - INFO - Starting simulation with N_ped=37, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:16:21,295 - INFO - Simulation time: 7.500 s (0.13 min) with tau=0.50 and N_ped=37
-2024-11-02 18:16:21,311 - INFO - Starting simulation with N_ped=38, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:16:29,202 - INFO - Simulation time: 7.892 s (0.13 min) with tau=0.50 and N_ped=38
-2024-11-02 18:16:29,217 - INFO - Starting simulation with N_ped=39, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:16:37,311 - INFO - Simulation time: 8.093 s (0.13 min) with tau=0.50 and N_ped=39
-2024-11-02 18:16:37,327 - INFO - Starting simulation with N_ped=40, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:16:44,624 - INFO - Simulation time: 7.297 s (0.12 min) with tau=0.50 and N_ped=40
-2024-11-02 18:16:44,639 - INFO - Starting simulation with N_ped=41, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:16:52,640 - INFO - Simulation time: 8.007 s (0.13 min) with tau=0.50 and N_ped=41
-2024-11-02 18:16:52,655 - INFO - Starting simulation with N_ped=42, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:00,187 - INFO - Simulation time: 7.527 s (0.13 min) with tau=0.50 and N_ped=42
-2024-11-02 18:17:00,202 - INFO - Starting simulation with N_ped=43, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:08,224 - INFO - Simulation time: 8.014 s (0.13 min) with tau=0.50 and N_ped=43
-2024-11-02 18:17:08,239 - INFO - Starting simulation with N_ped=44, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:15,961 - INFO - Simulation time: 7.721 s (0.13 min) with tau=0.50 and N_ped=44
-2024-11-02 18:17:15,973 - INFO - Starting simulation with N_ped=45, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:23,484 - INFO - Simulation time: 7.509 s (0.13 min) with tau=0.50 and N_ped=45
-2024-11-02 18:17:23,499 - INFO - Starting simulation with N_ped=46, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:31,327 - INFO - Simulation time: 7.832 s (0.13 min) with tau=0.50 and N_ped=46
-2024-11-02 18:17:31,343 - INFO - Starting simulation with N_ped=47, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:39,156 - INFO - Simulation time: 7.815 s (0.13 min) with tau=0.50 and N_ped=47
-2024-11-02 18:17:39,172 - INFO - Starting simulation with N_ped=48, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:47,618 - INFO - Simulation time: 8.433 s (0.14 min) with tau=0.50 and N_ped=48
-2024-11-02 18:17:47,742 - INFO - Starting simulation with N_ped=49, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:17:55,937 - INFO - Simulation time: 8.204 s (0.14 min) with tau=0.50 and N_ped=49
-2024-11-02 18:17:55,953 - INFO - Starting simulation with N_ped=50, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:18:04,015 - INFO - Simulation time: 8.058 s (0.13 min) with tau=0.50 and N_ped=50
-2024-11-02 18:18:04,031 - INFO - Starting simulation with N_ped=51, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:18:12,515 - INFO - Simulation time: 8.476 s (0.14 min) with tau=0.50 and N_ped=51
-2024-11-02 18:18:12,531 - INFO - Starting simulation with N_ped=52, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:18:21,032 - INFO - Simulation time: 8.496 s (0.14 min) with tau=0.50 and N_ped=52
-2024-11-02 18:18:21,047 - INFO - Starting simulation with N_ped=53, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:18:29,519 - INFO - Simulation time: 8.478 s (0.14 min) with tau=0.50 and N_ped=53
-2024-11-02 18:18:29,535 - INFO - Starting simulation with N_ped=54, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:18:38,367 - INFO - Simulation time: 8.827 s (0.15 min) with tau=0.50 and N_ped=54
-2024-11-02 18:18:38,382 - INFO - Starting simulation with N_ped=55, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:18:46,531 - INFO - Simulation time: 8.148 s (0.14 min) with tau=0.50 and N_ped=55
-2024-11-02 18:18:46,547 - INFO - Starting simulation with N_ped=56, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:18:55,001 - INFO - Simulation time: 8.452 s (0.14 min) with tau=0.50 and N_ped=56
-2024-11-02 18:18:55,032 - INFO - Starting simulation with N_ped=57, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:19:03,797 - INFO - Simulation time: 8.770 s (0.15 min) with tau=0.50 and N_ped=57
-2024-11-02 18:19:03,813 - INFO - Starting simulation with N_ped=58, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:19:12,469 - INFO - Simulation time: 8.663 s (0.14 min) with tau=0.50 and N_ped=58
-2024-11-02 18:19:12,485 - INFO - Starting simulation with N_ped=59, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:19:21,375 - INFO - Simulation time: 8.891 s (0.15 min) with tau=0.50 and N_ped=59
-2024-11-02 18:19:21,391 - INFO - Starting simulation with N_ped=60, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:19:30,141 - INFO - Simulation time: 8.744 s (0.15 min) with tau=0.50 and N_ped=60
-2024-11-02 18:19:30,157 - INFO - Starting simulation with N_ped=61, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:19:39,188 - INFO - Simulation time: 9.039 s (0.15 min) with tau=0.50 and N_ped=61
-2024-11-02 18:19:39,235 - INFO - Starting simulation with N_ped=62, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:19:48,861 - INFO - Simulation time: 9.623 s (0.16 min) with tau=0.50 and N_ped=62
-2024-11-02 18:19:48,876 - INFO - Starting simulation with N_ped=63, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:19:59,065 - INFO - Simulation time: 10.180 s (0.17 min) with tau=0.50 and N_ped=63
-2024-11-02 18:19:59,080 - INFO - Starting simulation with N_ped=64, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:20:08,688 - INFO - Simulation time: 9.601 s (0.16 min) with tau=0.50 and N_ped=64
-2024-11-02 18:20:08,735 - INFO - Starting simulation with N_ped=65, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:20:19,783 - INFO - Simulation time: 11.036 s (0.18 min) with tau=0.50 and N_ped=65
-2024-11-02 18:20:19,799 - INFO - Starting simulation with N_ped=66, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:20:30,196 - INFO - Simulation time: 10.392 s (0.17 min) with tau=0.50 and N_ped=66
-2024-11-02 18:20:30,217 - INFO - Starting simulation with N_ped=67, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:20:40,454 - INFO - Simulation time: 10.240 s (0.17 min) with tau=0.50 and N_ped=67
-2024-11-02 18:20:40,486 - INFO - Starting simulation with N_ped=68, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:20:51,361 - INFO - Simulation time: 10.882 s (0.18 min) with tau=0.50 and N_ped=68
-2024-11-02 18:20:51,376 - INFO - Starting simulation with N_ped=69, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:21:02,392 - INFO - Simulation time: 11.012 s (0.18 min) with tau=0.50 and N_ped=69
-2024-11-02 18:21:02,408 - INFO - Starting simulation with N_ped=70, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:21:15,517 - INFO - Simulation time: 13.110 s (0.22 min) with tau=0.50 and N_ped=70
-2024-11-02 18:21:15,533 - INFO - Starting simulation with N_ped=71, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:21:27,283 - INFO - Simulation time: 11.744 s (0.20 min) with tau=0.50 and N_ped=71
-2024-11-02 18:21:27,299 - INFO - Starting simulation with N_ped=72, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:21:38,834 - INFO - Simulation time: 11.521 s (0.19 min) with tau=0.50 and N_ped=72
-2024-11-02 18:21:38,851 - INFO - Starting simulation with N_ped=73, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:21:51,957 - INFO - Simulation time: 13.105 s (0.22 min) with tau=0.50 and N_ped=73
-2024-11-02 18:21:51,973 - INFO - Starting simulation with N_ped=74, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:22:04,268 - INFO - Simulation time: 12.303 s (0.21 min) with tau=0.50 and N_ped=74
-2024-11-02 18:22:04,283 - INFO - Starting simulation with N_ped=75, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:22:16,162 - INFO - Simulation time: 11.864 s (0.20 min) with tau=0.50 and N_ped=75
-2024-11-02 18:22:16,176 - INFO - Starting simulation with N_ped=76, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:22:23,596 - INFO - Simulation time: 7.422 s (0.12 min) with tau=0.50 and N_ped=76
-2024-11-02 18:22:23,612 - INFO - Starting simulation with N_ped=77, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:22:32,649 - INFO - Simulation time: 9.033 s (0.15 min) with tau=0.50 and N_ped=77
-2024-11-02 18:22:32,712 - INFO - Starting simulation with N_ped=78, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:22:40,456 - INFO - Simulation time: 7.744 s (0.13 min) with tau=0.50 and N_ped=78
-2024-11-02 18:22:40,472 - INFO - Starting simulation with N_ped=79, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
-2024-11-02 18:22:48,221 - INFO - Simulation time: 7.756 s (0.13 min) with tau=0.50 and N_ped=79
+2024-11-05 10:28:53,329 - INFO - Starting simulation with N_ped=1, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:53,624 - INFO - Simulation time: 0.300 s (0.00 min) with tau=0.50 and N_ped=1
+2024-11-05 10:28:53,639 - INFO - Starting simulation with N_ped=2, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:53,952 - INFO - Simulation time: 0.313 s (0.01 min) with tau=0.50 and N_ped=2
+2024-11-05 10:28:53,967 - INFO - Starting simulation with N_ped=3, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:54,333 - INFO - Simulation time: 0.368 s (0.01 min) with tau=0.50 and N_ped=3
+2024-11-05 10:28:54,348 - INFO - Starting simulation with N_ped=4, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:54,755 - INFO - Simulation time: 0.408 s (0.01 min) with tau=0.50 and N_ped=4
+2024-11-05 10:28:54,776 - INFO - Starting simulation with N_ped=5, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:55,107 - INFO - Simulation time: 0.337 s (0.01 min) with tau=0.50 and N_ped=5
+2024-11-05 10:28:55,122 - INFO - Starting simulation with N_ped=6, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:55,471 - INFO - Simulation time: 0.343 s (0.01 min) with tau=0.50 and N_ped=6
+2024-11-05 10:28:55,484 - INFO - Starting simulation with N_ped=7, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:55,822 - INFO - Simulation time: 0.333 s (0.01 min) with tau=0.50 and N_ped=7
+2024-11-05 10:28:55,837 - INFO - Starting simulation with N_ped=8, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:56,206 - INFO - Simulation time: 0.367 s (0.01 min) with tau=0.50 and N_ped=8
+2024-11-05 10:28:56,207 - INFO - Starting simulation with N_ped=9, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:56,538 - INFO - Simulation time: 0.316 s (0.01 min) with tau=0.50 and N_ped=9
+2024-11-05 10:28:56,545 - INFO - Starting simulation with N_ped=10, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:56,857 - INFO - Simulation time: 0.303 s (0.01 min) with tau=0.50 and N_ped=10
+2024-11-05 10:28:56,857 - INFO - Starting simulation with N_ped=11, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:57,226 - INFO - Simulation time: 0.353 s (0.01 min) with tau=0.50 and N_ped=11
+2024-11-05 10:28:57,240 - INFO - Starting simulation with N_ped=12, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:57,632 - INFO - Simulation time: 0.391 s (0.01 min) with tau=0.50 and N_ped=12
+2024-11-05 10:28:57,646 - INFO - Starting simulation with N_ped=13, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:57,980 - INFO - Simulation time: 0.333 s (0.01 min) with tau=0.50 and N_ped=13
+2024-11-05 10:28:57,989 - INFO - Starting simulation with N_ped=14, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:58,334 - INFO - Simulation time: 0.342 s (0.01 min) with tau=0.50 and N_ped=14
+2024-11-05 10:28:58,360 - INFO - Starting simulation with N_ped=15, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:58,779 - INFO - Simulation time: 0.415 s (0.01 min) with tau=0.50 and N_ped=15
+2024-11-05 10:28:58,789 - INFO - Starting simulation with N_ped=16, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:59,192 - INFO - Simulation time: 0.400 s (0.01 min) with tau=0.50 and N_ped=16
+2024-11-05 10:28:59,204 - INFO - Starting simulation with N_ped=17, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:28:59,649 - INFO - Simulation time: 0.440 s (0.01 min) with tau=0.50 and N_ped=17
+2024-11-05 10:28:59,664 - INFO - Starting simulation with N_ped=18, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:00,185 - INFO - Simulation time: 0.525 s (0.01 min) with tau=0.50 and N_ped=18
+2024-11-05 10:29:00,201 - INFO - Starting simulation with N_ped=19, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:00,609 - INFO - Simulation time: 0.389 s (0.01 min) with tau=0.50 and N_ped=19
+2024-11-05 10:29:00,624 - INFO - Starting simulation with N_ped=20, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:01,123 - INFO - Simulation time: 0.503 s (0.01 min) with tau=0.50 and N_ped=20
+2024-11-05 10:29:01,139 - INFO - Starting simulation with N_ped=21, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:02,171 - INFO - Simulation time: 1.029 s (0.02 min) with tau=0.50 and N_ped=21
+2024-11-05 10:29:04,100 - INFO - Starting simulation with N_ped=22, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:05,388 - INFO - Simulation time: 0.471 s (0.01 min) with tau=0.50 and N_ped=22
+2024-11-05 10:29:05,404 - INFO - Starting simulation with N_ped=23, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:05,937 - INFO - Simulation time: 0.515 s (0.01 min) with tau=0.50 and N_ped=23
+2024-11-05 10:29:05,937 - INFO - Starting simulation with N_ped=24, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:06,404 - INFO - Simulation time: 0.462 s (0.01 min) with tau=0.50 and N_ped=24
+2024-11-05 10:29:06,420 - INFO - Starting simulation with N_ped=25, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:06,904 - INFO - Simulation time: 0.483 s (0.01 min) with tau=0.50 and N_ped=25
+2024-11-05 10:29:06,919 - INFO - Starting simulation with N_ped=26, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:07,389 - INFO - Simulation time: 0.472 s (0.01 min) with tau=0.50 and N_ped=26
+2024-11-05 10:29:07,404 - INFO - Starting simulation with N_ped=27, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:07,873 - INFO - Simulation time: 0.470 s (0.01 min) with tau=0.50 and N_ped=27
+2024-11-05 10:29:07,888 - INFO - Starting simulation with N_ped=28, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:08,342 - INFO - Simulation time: 0.448 s (0.01 min) with tau=0.50 and N_ped=28
+2024-11-05 10:29:08,357 - INFO - Starting simulation with N_ped=29, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:08,764 - INFO - Simulation time: 0.402 s (0.01 min) with tau=0.50 and N_ped=29
+2024-11-05 10:29:08,779 - INFO - Starting simulation with N_ped=30, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:09,561 - INFO - Simulation time: 0.778 s (0.01 min) with tau=0.50 and N_ped=30
+2024-11-05 10:29:09,576 - INFO - Starting simulation with N_ped=31, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:10,016 - INFO - Simulation time: 0.427 s (0.01 min) with tau=0.50 and N_ped=31
+2024-11-05 10:29:10,017 - INFO - Starting simulation with N_ped=32, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:10,513 - INFO - Simulation time: 0.491 s (0.01 min) with tau=0.50 and N_ped=32
+2024-11-05 10:29:10,545 - INFO - Starting simulation with N_ped=33, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:10,982 - INFO - Simulation time: 0.433 s (0.01 min) with tau=0.50 and N_ped=33
+2024-11-05 10:29:10,982 - INFO - Starting simulation with N_ped=34, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:11,491 - INFO - Simulation time: 0.502 s (0.01 min) with tau=0.50 and N_ped=34
+2024-11-05 10:29:11,513 - INFO - Starting simulation with N_ped=35, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:12,002 - INFO - Simulation time: 0.479 s (0.01 min) with tau=0.50 and N_ped=35
+2024-11-05 10:29:12,015 - INFO - Starting simulation with N_ped=36, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:12,483 - INFO - Simulation time: 0.469 s (0.01 min) with tau=0.50 and N_ped=36
+2024-11-05 10:29:12,499 - INFO - Starting simulation with N_ped=37, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:13,014 - INFO - Simulation time: 0.524 s (0.01 min) with tau=0.50 and N_ped=37
+2024-11-05 10:29:13,029 - INFO - Starting simulation with N_ped=38, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:13,576 - INFO - Simulation time: 0.529 s (0.01 min) with tau=0.50 and N_ped=38
+2024-11-05 10:29:13,592 - INFO - Starting simulation with N_ped=39, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:14,116 - INFO - Simulation time: 0.524 s (0.01 min) with tau=0.50 and N_ped=39
+2024-11-05 10:29:14,141 - INFO - Starting simulation with N_ped=40, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:14,654 - INFO - Simulation time: 0.520 s (0.01 min) with tau=0.50 and N_ped=40
+2024-11-05 10:29:14,670 - INFO - Starting simulation with N_ped=41, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:18,498 - INFO - Simulation time: 3.832 s (0.06 min) with tau=0.50 and N_ped=41
+2024-11-05 10:29:18,513 - INFO - Starting simulation with N_ped=42, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:19,138 - INFO - Simulation time: 0.617 s (0.01 min) with tau=0.50 and N_ped=42
+2024-11-05 10:29:19,154 - INFO - Starting simulation with N_ped=43, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:19,717 - INFO - Simulation time: 0.559 s (0.01 min) with tau=0.50 and N_ped=43
+2024-11-05 10:29:19,732 - INFO - Starting simulation with N_ped=44, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:20,310 - INFO - Simulation time: 0.577 s (0.01 min) with tau=0.50 and N_ped=44
+2024-11-05 10:29:20,326 - INFO - Starting simulation with N_ped=45, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:20,857 - INFO - Simulation time: 0.527 s (0.01 min) with tau=0.50 and N_ped=45
+2024-11-05 10:29:20,873 - INFO - Starting simulation with N_ped=46, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:21,457 - INFO - Simulation time: 0.569 s (0.01 min) with tau=0.50 and N_ped=46
+2024-11-05 10:29:21,459 - INFO - Starting simulation with N_ped=47, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:21,967 - INFO - Simulation time: 0.499 s (0.01 min) with tau=0.50 and N_ped=47
+2024-11-05 10:29:21,982 - INFO - Starting simulation with N_ped=48, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:22,470 - INFO - Simulation time: 0.492 s (0.01 min) with tau=0.50 and N_ped=48
+2024-11-05 10:29:22,484 - INFO - Starting simulation with N_ped=49, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:23,092 - INFO - Simulation time: 0.610 s (0.01 min) with tau=0.50 and N_ped=49
+2024-11-05 10:29:23,116 - INFO - Starting simulation with N_ped=50, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:23,686 - INFO - Simulation time: 0.564 s (0.01 min) with tau=0.50 and N_ped=50
+2024-11-05 10:29:23,701 - INFO - Starting simulation with N_ped=51, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:24,263 - INFO - Simulation time: 0.552 s (0.01 min) with tau=0.50 and N_ped=51
+2024-11-05 10:29:24,279 - INFO - Starting simulation with N_ped=52, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:24,888 - INFO - Simulation time: 0.602 s (0.01 min) with tau=0.50 and N_ped=52
+2024-11-05 10:29:24,904 - INFO - Starting simulation with N_ped=53, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:25,451 - INFO - Simulation time: 0.542 s (0.01 min) with tau=0.50 and N_ped=53
+2024-11-05 10:29:25,467 - INFO - Starting simulation with N_ped=54, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:26,060 - INFO - Simulation time: 0.592 s (0.01 min) with tau=0.50 and N_ped=54
+2024-11-05 10:29:26,076 - INFO - Starting simulation with N_ped=55, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:26,732 - INFO - Simulation time: 0.650 s (0.01 min) with tau=0.50 and N_ped=55
+2024-11-05 10:29:26,763 - INFO - Starting simulation with N_ped=56, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:27,332 - INFO - Simulation time: 0.561 s (0.01 min) with tau=0.50 and N_ped=56
+2024-11-05 10:29:27,338 - INFO - Starting simulation with N_ped=57, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:27,904 - INFO - Simulation time: 0.557 s (0.01 min) with tau=0.50 and N_ped=57
+2024-11-05 10:29:27,920 - INFO - Starting simulation with N_ped=58, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:32,295 - INFO - Simulation time: 4.356 s (0.07 min) with tau=0.50 and N_ped=58
+2024-11-05 10:29:32,295 - INFO - Starting simulation with N_ped=59, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:32,998 - INFO - Simulation time: 0.693 s (0.01 min) with tau=0.50 and N_ped=59
+2024-11-05 10:29:33,013 - INFO - Starting simulation with N_ped=60, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:33,717 - INFO - Simulation time: 0.712 s (0.01 min) with tau=0.50 and N_ped=60
+2024-11-05 10:29:33,732 - INFO - Starting simulation with N_ped=61, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:34,388 - INFO - Simulation time: 0.646 s (0.01 min) with tau=0.50 and N_ped=61
+2024-11-05 10:29:34,404 - INFO - Starting simulation with N_ped=62, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:35,014 - INFO - Simulation time: 0.605 s (0.01 min) with tau=0.50 and N_ped=62
+2024-11-05 10:29:35,029 - INFO - Starting simulation with N_ped=63, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:35,638 - INFO - Simulation time: 0.603 s (0.01 min) with tau=0.50 and N_ped=63
+2024-11-05 10:29:35,654 - INFO - Starting simulation with N_ped=64, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:36,342 - INFO - Simulation time: 0.695 s (0.01 min) with tau=0.50 and N_ped=64
+2024-11-05 10:29:36,373 - INFO - Starting simulation with N_ped=65, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:37,060 - INFO - Simulation time: 0.679 s (0.01 min) with tau=0.50 and N_ped=65
+2024-11-05 10:29:37,076 - INFO - Starting simulation with N_ped=66, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:37,769 - INFO - Simulation time: 0.685 s (0.01 min) with tau=0.50 and N_ped=66
+2024-11-05 10:29:37,773 - INFO - Starting simulation with N_ped=67, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:38,435 - INFO - Simulation time: 0.657 s (0.01 min) with tau=0.50 and N_ped=67
+2024-11-05 10:29:38,451 - INFO - Starting simulation with N_ped=68, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:39,170 - INFO - Simulation time: 0.715 s (0.01 min) with tau=0.50 and N_ped=68
+2024-11-05 10:29:39,185 - INFO - Starting simulation with N_ped=69, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:39,810 - INFO - Simulation time: 0.621 s (0.01 min) with tau=0.50 and N_ped=69
+2024-11-05 10:29:39,858 - INFO - Starting simulation with N_ped=70, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:40,560 - INFO - Simulation time: 0.690 s (0.01 min) with tau=0.50 and N_ped=70
+2024-11-05 10:29:40,560 - INFO - Starting simulation with N_ped=71, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:41,560 - INFO - Simulation time: 0.988 s (0.02 min) with tau=0.50 and N_ped=71
+2024-11-05 10:29:41,576 - INFO - Starting simulation with N_ped=72, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:42,295 - INFO - Simulation time: 0.718 s (0.01 min) with tau=0.50 and N_ped=72
+2024-11-05 10:29:42,389 - INFO - Starting simulation with N_ped=73, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:46,454 - INFO - Simulation time: 4.021 s (0.07 min) with tau=0.50 and N_ped=73
+2024-11-05 10:29:46,470 - INFO - Starting simulation with N_ped=74, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:47,201 - INFO - Simulation time: 0.735 s (0.01 min) with tau=0.50 and N_ped=74
+2024-11-05 10:29:47,217 - INFO - Starting simulation with N_ped=75, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:48,013 - INFO - Simulation time: 0.790 s (0.01 min) with tau=0.50 and N_ped=75
+2024-11-05 10:29:48,029 - INFO - Starting simulation with N_ped=76, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:48,799 - INFO - Simulation time: 0.773 s (0.01 min) with tau=0.50 and N_ped=76
+2024-11-05 10:29:48,828 - INFO - Starting simulation with N_ped=77, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:49,545 - INFO - Simulation time: 0.730 s (0.01 min) with tau=0.50 and N_ped=77
+2024-11-05 10:29:49,560 - INFO - Starting simulation with N_ped=78, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:50,298 - INFO - Simulation time: 0.722 s (0.01 min) with tau=0.50 and N_ped=78
+2024-11-05 10:29:50,314 - INFO - Starting simulation with N_ped=79, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:51,062 - INFO - Simulation time: 0.746 s (0.01 min) with tau=0.50 and N_ped=79
+2024-11-05 10:29:51,076 - INFO - Starting simulation with N_ped=80, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:51,829 - INFO - Simulation time: 0.749 s (0.01 min) with tau=0.50 and N_ped=80
+2024-11-05 10:29:51,829 - INFO - Starting simulation with N_ped=81, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:52,560 - INFO - Simulation time: 0.720 s (0.01 min) with tau=0.50 and N_ped=81
+2024-11-05 10:29:52,560 - INFO - Starting simulation with N_ped=82, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:53,348 - INFO - Simulation time: 0.772 s (0.01 min) with tau=0.50 and N_ped=82
+2024-11-05 10:29:53,358 - INFO - Starting simulation with N_ped=83, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:54,154 - INFO - Simulation time: 0.779 s (0.01 min) with tau=0.50 and N_ped=83
+2024-11-05 10:29:54,154 - INFO - Starting simulation with N_ped=84, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:54,989 - INFO - Simulation time: 0.826 s (0.01 min) with tau=0.50 and N_ped=84
+2024-11-05 10:29:55,005 - INFO - Starting simulation with N_ped=85, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:29:56,076 - INFO - Simulation time: 1.066 s (0.02 min) with tau=0.50 and N_ped=85
+2024-11-05 10:29:56,382 - INFO - Starting simulation with N_ped=86, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:00,391 - INFO - Simulation time: 3.688 s (0.06 min) with tau=0.50 and N_ped=86
+2024-11-05 10:30:00,420 - INFO - Starting simulation with N_ped=87, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:01,357 - INFO - Simulation time: 0.943 s (0.02 min) with tau=0.50 and N_ped=87
+2024-11-05 10:30:01,373 - INFO - Starting simulation with N_ped=88, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:02,265 - INFO - Simulation time: 0.878 s (0.01 min) with tau=0.50 and N_ped=88
+2024-11-05 10:30:02,265 - INFO - Starting simulation with N_ped=89, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:03,205 - INFO - Simulation time: 0.924 s (0.02 min) with tau=0.50 and N_ped=89
+2024-11-05 10:30:03,231 - INFO - Starting simulation with N_ped=90, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:04,076 - INFO - Simulation time: 0.856 s (0.01 min) with tau=0.50 and N_ped=90
+2024-11-05 10:30:04,092 - INFO - Starting simulation with N_ped=91, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:05,076 - INFO - Simulation time: 0.977 s (0.02 min) with tau=0.50 and N_ped=91
+2024-11-05 10:30:05,092 - INFO - Starting simulation with N_ped=92, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:05,973 - INFO - Simulation time: 0.869 s (0.01 min) with tau=0.50 and N_ped=92
+2024-11-05 10:30:05,983 - INFO - Starting simulation with N_ped=93, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:06,908 - INFO - Simulation time: 0.929 s (0.02 min) with tau=0.50 and N_ped=93
+2024-11-05 10:30:06,929 - INFO - Starting simulation with N_ped=94, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:07,891 - INFO - Simulation time: 0.960 s (0.02 min) with tau=0.50 and N_ped=94
+2024-11-05 10:30:07,892 - INFO - Starting simulation with N_ped=95, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:10,279 - INFO - Simulation time: 2.376 s (0.04 min) with tau=0.50 and N_ped=95
+2024-11-05 10:30:10,295 - INFO - Starting simulation with N_ped=96, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:13,702 - INFO - Simulation time: 3.394 s (0.06 min) with tau=0.50 and N_ped=96
+2024-11-05 10:30:13,718 - INFO - Starting simulation with N_ped=97, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:14,750 - INFO - Simulation time: 1.033 s (0.02 min) with tau=0.50 and N_ped=97
+2024-11-05 10:30:14,766 - INFO - Starting simulation with N_ped=98, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:15,814 - INFO - Simulation time: 1.050 s (0.02 min) with tau=0.50 and N_ped=98
+2024-11-05 10:30:15,828 - INFO - Starting simulation with N_ped=99, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:16,923 - INFO - Simulation time: 1.084 s (0.02 min) with tau=0.50 and N_ped=99
+2024-11-05 10:30:16,927 - INFO - Starting simulation with N_ped=100, tau=0.5, v0=1.5, Length=100, Width=0, periodic=True, A=2000, B=0.08, delta_t=0.2
+2024-11-05 10:30:18,013 - INFO - Simulation time: 1.073 s (0.02 min) with tau=0.50 and N_ped=100

@@ -32,7 +32,7 @@ def Helbing_Model_2D(t, state, param, walls, mode = 'Line_Method'):
     N = positions.shape[1]  # Number of agents
 
     # Desired velocity vector in the x direction (for simplicity)
-    if mode == 'Line_Method':
+    if mode == 'default':
         desired_velocity = np.array([[v0], [0]])
     elif mode == 'Rounding_Corner':
         guide_line_start = np.array([50, -2])

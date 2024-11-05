@@ -26,7 +26,7 @@ def simulation(N_ped, dt, t_end, state, once, f, fps, param, walls):
             f.flush()
             iframe += 1
 
-        t, state, flag = euler(t, dt, state, Helbing_Model_2D, param, walls, mode = 'Bi-Directional Flow')
+        t, state, flag = euler(t, dt, state, Helbing_Model_2D, param, walls, mode = 'default')
 
         frame += 1
     
@@ -40,11 +40,11 @@ def run_simulations():
         level=logging.DEBUG,
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
-    param = (80, 0.5, 1.5, 100, 10, True, 2000, 0.08, 0.2, 0.5, 120000)
-    walls = environments["Bi-Directional Flow"]
+    param = (80, 0.5, 1.5, 100, 0, True, 2000, 0.08, 0.2, 0.5, 120000)
+    walls = environments["default"]
     m, tau, v0, Length, Width, periodic, A, B, delta_t, fixed_radius, k= param
-    dt = 0.0001
-    t_end = 100
+    dt = 0.01
+    t_end = 10
     fps = 8
 
     velocities = []  # List to store final mean velocities for each N_ped
@@ -52,8 +52,8 @@ def run_simulations():
     with open("mean_velocities.txt", "w") as outfile:
         outfile.write("N_ped\tMean vx\tMean vy\n")  # Write headers to the file
 
-        # for N_ped in range(10, 110, 10):
-        for N_ped in [100]:
+        for N_ped in range(1, 101):
+        # for N_ped in [100]:
 
             prefix = "tau%.2f_v0%.2f_Length%.2f_Width%.2f_periodic%s_A%.2f_B%.2f_delta_t%.2f" % (tau, v0, Length, Width, str(periodic), A, B, delta_t)
             filename = f"traj_{prefix}_N{N_ped}.txt"
